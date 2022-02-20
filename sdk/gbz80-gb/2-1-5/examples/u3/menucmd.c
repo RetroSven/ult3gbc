@@ -1784,7 +1784,7 @@ UBYTE doenter()
 	{
 		if ( extragame )
 		{
-			if ( (playerx==20) && (playery==18) )
+			if ( (playerx==37) && (playery==18) )
 				return 50 ;
 
 			returntown = 99U ;
@@ -1868,7 +1868,7 @@ UBYTE doenter()
 					return 11 ;
 			}
 			else
-				if ( (playerx==20) && (playery==18) )
+				if ( (playerx==37) && (playery==18) )
 				return 50 ;
 
 		}               

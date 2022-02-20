@@ -1265,7 +1265,7 @@ void levelup()
 	{
 
 
-		if ( ( total_enemies_hit > 199 ) && ( total_earth_hits < 11 ) )
+		if ( ( total_enemies_hit > 99 ) && ( total_earth_hits < 21 ) )
 			remoteCall( 37, 36, endgamegood ) ;
 		else
 			remoteCall( 37, 36, endgamebad ) ;
