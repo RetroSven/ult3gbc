@@ -30,3 +30,5 @@ MAX ALL : Max stats, exp, level, food, gems, keys, powders, torches ; all armors
 
 JUMPEND : In the original game, this starts the ending sequence after defeating Exodus.  If you enter/exit any castle/town after this, you'll begin the second adventure.  In the second adventure this doesn't do anything, but if you +POWERS and then OTHER->BUILD, that will start the ending sequence where you can play the final arcade-like game.
 
+
+The battles in the second adventure are very hard.  If I did it over again, I'd make them easier.  Probably the best way to enjoy the second game is to turn on the "NOFIGHT" and "MAX ALL" cheats and then just explore the game and solve the puzzles.
