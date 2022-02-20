@@ -1,6 +1,18 @@
 # ult3gbc
 Ultima 3 port to the Gameboy Color
 
+Graphics were lifted from the C64 16x16 tiles and shrunk to 8x8.
+
+Music was converted from the C64 SIDs.
+
+Game logic, text, etc were taken from the MSDOS version.  In order to achieve the highest fidelity, the MSDOS version was decompiled and portions were converted to C.  Things like when a ship a generated, to-hit/damage battle calculations, whirlpool movement, etc are all maintained.  Therefore this version should play exactly like the MSDOS version.
+
+This was done back in 2001.  The code is a frightful mess and I know it, so don't judge.  :)  I wish I had documented some more portions because as I looked through it again 20 years later it's hard to determine how certain things work (GBC idiosyncrasies).
+
+How to play:
+
+Press Start at both of the intro screens.
+
 Press the A button to bring up the menu and to make selections 
 Press the B button to pass or to cancel out of menus 
 Press the D-Pad to move around 
