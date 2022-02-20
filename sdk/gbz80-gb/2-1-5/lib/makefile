@@ -1,0 +1,141 @@
+# Automagically generated Makefile
+
+CC = ../bin/lcc -Wa-l
+
+PRECOMPILE = \
+   floor.s  \
+   font.s  \
+   ftou.s  \
+   macros.s  \
+   sin_cos.s  \
+   sintable.s  \
+   sqrt.s  \
+	dummy
+
+OBJS = \
+   floor.o  \
+   font.o  \
+   ftou.o  \
+   macros.o  \
+   sin_cos.o  \
+   sintable.o  \
+   sqrt.o  \
+   arand.o  \
+   asl.o  \
+   asr.o  \
+   cgb.o  \
+   clock.o  \
+   cpy_data.o  \
+   crt0.o  \
+   delay.o  \
+   div.o  \
+   drawing.o  \
+   endin.o  \
+   f_ibm_sh.o  \
+   f_italic.o  \
+   f_min.o  \
+   f_spect.o  \
+   fp_long.o  \
+   get_bk_t.o  \
+   get_data.o  \
+   get_prop.o  \
+   get_spr.o  \
+   get_wi_t.o  \
+   get_xy_t.o  \
+   global.o  \
+   hiramcpy.o  \
+   ibmfixed.o  \
+   init_tt.o  \
+   input.o  \
+   lreg.o  \
+   lsr.o  \
+   malloc-gb.o  \
+   math.o  \
+   memcpy.o  \
+   memset.o  \
+   mul.o  \
+   mv_bkg.o  \
+   mv_spr.o  \
+   mv_win.o  \
+   pad.o  \
+   rand.o  \
+   sample.o  \
+   scroll_b.o  \
+   scroll_s.o  \
+   scroll_w.o  \
+   serial.o  \
+   set_bk_t.o  \
+   set_data.o  \
+   set_prop.o  \
+   set_spr.o  \
+   set_wi_t.o  \
+   set_xy_t.o  \
+   sgb.o  \
+   abs.o  \
+   atoi.o  \
+   atol.o  \
+   digits.o  \
+   gprint.o  \
+   gprintf.o  \
+   gprintln.o  \
+   gprintn.o  \
+   isalpha.o  \
+   isdigit.o  \
+   islower.o  \
+   isspace.o  \
+   isupper.o  \
+   itoa.o  \
+   labs.o  \
+   ltoa.o  \
+   malloc-block.o  \
+   malloc-list.o  \
+   print.o  \
+   printf.o  \
+   println.o  \
+   printn.o  \
+   puts.o  \
+   reverse.o  \
+   scanf.o  \
+   sprint.o  \
+   sprintf.o  \
+   sprintln.o  \
+   sprintn.o  \
+   strcat.o  \
+   strcmp.o  \
+   strcpy.o  \
+   strlen.o  \
+   strncat.o  \
+   strncmp.o  \
+   strncpy.o  \
+   time.o  \
+   tolower.o  \
+   toupper.o  \
+	dummy
+
+all:	$(OBJS)
+
+dummy:
+
+# Precompile some files for distribution
+prep-dist: clean gb.lib $(PRECOMPILE) make.bat
+
+make.bat: clean
+	echo "REM Generated from Makefile using 'make make.bat'" >> make.bat
+	for i in *.s; do echo ..\\bin\\lcc -c -o `basename $$i .s`.o $$i >> make.bat; done 
+	for i in *.c; do echo ..\\bin\\lcc -c -o `basename $$i .c`.o $$i >> make.bat; done 
+
+gb.lib: 
+	rm -f gb.lib
+	for i in $(OBJS); do echo $$i >> gb.lib; done
+
+%.s: %.ms
+	maccer -o $@ $<
+
+%.o:	%.c
+	$(CC) -c -o $@ $<
+
+%.o:	%.s
+	$(CC) -c -o $@ $<
+
+clean:
+	rm -f *.o *.lst *.map *.gb *~ $(PRECOMPILE) gb.lib make.bat
