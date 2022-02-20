@@ -31,3 +31,12 @@ When you finish Ultima 3 and start the new adventure, do not disperse your
 party and form another one.  If you do this, you will start at the
 beginning of Ultima 3 - you will not continue the post-Ultima 3 adventure
 with the new players.
+
+The 11 clues in the second adventure are a logic puzzle.  Here is an online resource to help solve it:
+
+https://www.jsingler.de/apps/logikloeser/?language=en#(at:s,items:!(!(cleric,ranger,wizard,fighter,thief),!(orc,giant,balron,demon,dragon),!(cave,dungeon,field,castle,other),!(first,second,third,fourth,fifth)),ms:t,n:!(),nc:4,ni:5,p:!(),v:0)
+
+
+Here's my old webpage with more details about this project and others that I've done:
+
+https://web.archive.org/web/20170522203625/http://sven.50webs.org/ultima3.html
