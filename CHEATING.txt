@@ -1,0 +1,32 @@
+It has been more than 20 years since I first completed this project and I don't think I ever heard that anyone ever finished the second adventure.
+
+When you beat the second adventure, you're presented with a congratulations screen that tells you to "ENTER 37,18" which corresponds to coordinates on Sosaria.
+
+If you "ENTER" that square, you will be taken to a cheat menu with lots of different cheat options.
+
+The easiest way to get there is to position your avatar over Lord British's castle and walk 8 squares to the left.
+
+Some cheats are not intuitive (only have so much screen real estate) so here's a better list of descriptions:
+
+MUSIC   : Select/test all music in the game
+
+XRAY    : See through all tiles
+
+NOFIGHT : Automatically win every battle
+
+NOHURT  : HP never decreases
+
+NOBLOCK : Walk through any tile
+
+FULL MP : MP never decreases
+
+NOCLASS : All characters can cast all spells
+
+MAX ALL : Max stats, exp, level, food, gems, keys, powders, torches ; all armors, all weapons
+
++POWERS : In the original game, grants all marks/cards to everyone.  In second adventure, grants all the powers.
+
+-POWERS : In the original game, removes all marks/cards from everyone.  In second adventure, removes all the powers.
+
+JUMPEND : In the original game, this starts the ending sequence after defeating Exodus.  If you enter/exit any castle/town after this, you'll begin the second adventure.  In the second adventure this doesn't do anything, but if you +POWERS and then OTHER->BUILD, that will start the ending sequence where you can play the final arcade-like game.
+
