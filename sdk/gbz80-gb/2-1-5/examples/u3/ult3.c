@@ -1069,6 +1069,10 @@ void combat(UBYTE n, UBYTE thetile)
 	//move_sprite( 5, 56,64 );
 
 
+	if ( cheat_nofight )
+    {
+        waitpadup() ;
+    }
 
 }
 
@@ -1212,7 +1216,7 @@ void writedunglevel()
 
 void dodungeon(UBYTE themap)
 {
-	UBYTE joykeys,n, actioncmd, monnum ;
+	UBYTE joykeys,n, actioncmd, monnum, didaction ;
 
 	changemusic = 6 ;
 	changebank(6) ;
@@ -1235,6 +1239,7 @@ void dodungeon(UBYTE themap)
 	set_data2((unsigned char*)0x9802,dungheader,7L) ;
 	set_data2((unsigned char*)0x9C02,dungheader,7L) ;
 	torchtime = 0 ;
+    didaction = 0 ;
 
 	//move_sprite(5,0,0) ;
 
@@ -1274,7 +1279,7 @@ void dodungeon(UBYTE themap)
 	currROM = 18 ;
 	SWITCH_ROM_MBC5(18L) ;
 	enable_interrupts2() ;
-	update_screen_dungeon() ;
+	update_screen_dungeon(1) ;
 	while ( 1 )
 	{
 		joykeys = joypad() ;
@@ -1287,7 +1292,7 @@ void dodungeon(UBYTE themap)
 				else
 					dungdir++ ;
 				writegamemessage(turnrightdat) ;
-				update_screen_dungeon() ;
+				update_screen_dungeon(1) ;
 				movesfx(15,20,0) ;
 				mademove = 1 ;
 			}
@@ -1297,6 +1302,7 @@ void dodungeon(UBYTE themap)
 				invalidmovesfx(80) ;
 			}
 			waitpadup() ;
+            didaction = 1 ;
 		}
 		if ( joykeys&J_LEFT )
 		{
@@ -1307,7 +1313,7 @@ void dodungeon(UBYTE themap)
 				else
 					dungdir-- ;
 				writegamemessage(turnleftdat) ;
-				update_screen_dungeon() ;
+				update_screen_dungeon(1) ;
 				movesfx(15,20,0) ;
 				mademove = 1 ;
 			}
@@ -1317,13 +1323,14 @@ void dodungeon(UBYTE themap)
 				invalidmovesfx(80) ;
 			}
 			waitpadup() ;
+            didaction = 1 ;
 		}
 		if ( joykeys&J_UP )
 		{
 			if ( isvaliddungmove(2) )
 			{
 				writegamemessage(moveforwarddat) ;
-				update_screen_dungeon() ;
+				update_screen_dungeon(1) ;
 				movesfx(15,20,0) ;
 				mademove = 1 ;
 			}
@@ -1333,6 +1340,7 @@ void dodungeon(UBYTE themap)
 				invalidmovesfx(80) ;
 			}
 			waitpadup() ;
+            didaction = 1 ;
 
 		}
 		if ( joykeys&J_DOWN )
@@ -1340,7 +1348,7 @@ void dodungeon(UBYTE themap)
 			if ( isvaliddungmove(3) )
 			{
 				writegamemessage(movebackdat) ;
-				update_screen_dungeon() ;
+				update_screen_dungeon(1) ;
 				movesfx(15,20,0) ;
 				mademove = 1 ;
 			}
@@ -1350,6 +1358,7 @@ void dodungeon(UBYTE themap)
 				invalidmovesfx(80) ;
 			}
 			waitpadup() ;
+            didaction = 1 ;
 
 		}
 
@@ -1358,6 +1367,7 @@ void dodungeon(UBYTE themap)
 			writegamemessage(passdat2) ;
 			mademove = 1 ;
 			waitpadup() ;
+            didaction = 1 ;
 		}
 		if ( joykeys&J_A )
 		{
@@ -1382,8 +1392,6 @@ void dodungeon(UBYTE themap)
 							dunglevel++ ;
 							writedunglevel() ;
 							currdungtile = *((unsigned char*)(0xA000+(((UWORD)dunglevel)*0x100L)+(UWORD)(dungy<<4U)+(UWORD)dungx)) ;
-
-
 						}
 						else
 						{
@@ -1442,13 +1450,14 @@ void dodungeon(UBYTE themap)
 				case 13 : mademove = dowearready(1) ; break ;
 				case 14 : mademove = doyellother(1) ; break ; //doyell
 				case 15 : mademove = doztats() ; break ;
-				default : mademove = 0 ; break ;
+				default : { mademove = 0 ; dungrefresh = 2 ; break ; }
 
 
 			}
 			if ( (mademove==0)&&(actioncmd<16) )
 				writegamemessage(canceldat4) ;
 			waitpadup() ;
+            didaction = 1 ;
 			//move_sprite(5,0,0) ;
 		}
 		if ( mademove )
@@ -1491,13 +1500,23 @@ void dodungeon(UBYTE themap)
 			currROM = 18 ;
 			SWITCH_ROM_MBC5(18L) ;
 			if ( dungrefresh==1 )
-				update_screen_dungeon() ;
+				update_screen_dungeon(1) ;
 			dungrefresh = 0 ;
 		}
 
 
 		if ( dunglevel==99 )
 			break ;
+        
+        if ( didaction != 0 ) 
+        {
+            didaction = 0 ;
+            currROM = 18 ;
+            SWITCH_ROM_MBC5(18L) ;
+            update_screen_dungeon(0) ;
+            enable_interrupts2() ;
+        }
+            
 	}
 
 	disable_interrupts2() ;

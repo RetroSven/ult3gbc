@@ -889,68 +889,104 @@ void docheat()
 {
 	UBYTE cheatnum ;
 
-	cheatnum = getmenuselection26(11,cheatmenudat,showcheatdesc,cheatdescdat) ;
+    while ( 1 ) 
+    {
+        cheatnum = getmenuselection26(11,cheatmenudat,showcheatdesc,cheatdescdat) ;
 
-	switch ( cheatnum )
-	{
-		case 0 : 
-			{
-				doselectmusic(2,35) ;
-				break ;
-			}
-		case 1 : 
-			{
-				cheat_xray += 0x80U ;
-				break ;
-			}
-		case 2 : 
-			{
-				cheat_nofight += 0x80U ;
-				break ;
-			}
-		case 3 : 
-			{
-				cheat_nohurt += 0x80U ;
-				break ;
-			}
-		case 4 : 
-			{
-				cheat_noblock += 0x80U ;
-				break ;
-			}
-		case 5 : 
-			{
-				cheat_fullmp += 0x80U ;
-				break ;
-			}
-		case 6 : 
-			{
-				cheat_noclass += 0x80U ;
-				break ;
-			}
-		case 7 : 
-			{
-				domaxall() ;
-				break ;
-			}
-		case 8 : 
-			{
-				allpowers(1) ;
-				break ;
-			}
-		case 9 : 
-			{
-				allpowers(0) ;
-				break ;
-			}
-		case 10 : 
-			{
-				jumpending() ;
-				break ;
-			}
-		default : break ;
-	}
-
+        switch ( cheatnum )
+        {
+            case 0 : 
+                {
+                    doselectmusic(2,35) ;
+                    break ;
+                }
+            case 1 : 
+                {
+                    cheat_xray += 0x80U ;
+                    if ( cheat_xray != 0 ) 
+                        playerhitsfx(120U);//enable
+                    else
+                        attackswingsfx(120) ;//disable
+                        
+                    break ;
+                }
+            case 2 : 
+                {
+                    cheat_nofight += 0x80U ;
+                    if ( cheat_nofight != 0 ) 
+                        playerhitsfx(120) ;//enable
+                    else
+                        attackswingsfx(120) ;//disable
+                    break ;
+                }
+            case 3 : 
+                {
+                    cheat_nohurt += 0x80U ;
+                    if ( cheat_nohurt != 0 ) 
+                        playerhitsfx(120) ;//enable
+                    else
+                        attackswingsfx(120) ;//disable
+                    break ;
+                }
+            case 4 : 
+                {
+                    cheat_noblock += 0x80U ;
+                    if ( cheat_noblock != 0 ) 
+                        playerhitsfx(120) ;//enable
+                    else
+                        attackswingsfx(120) ;//disable
+                    break ;
+                }
+            case 5 : 
+                {
+                    cheat_fullmp += 0x80U ;
+                    if ( cheat_fullmp != 0 ) 
+                        playerhitsfx(120) ;//enable
+                    else
+                        attackswingsfx(120) ;//disable
+                    break ;
+                }
+            case 6 : 
+                {
+                    cheat_noclass += 0x80U ;
+                    if ( cheat_noclass != 0 ) 
+                        playerhitsfx(120) ;//enable
+                    else
+                        attackswingsfx(120) ;//disable
+                    break ;
+                }
+            case 7 : 
+                {
+                    domaxall() ;
+                    playerhitsfx(120) ;//enable
+                    break ;
+                }
+            case 8 : 
+                {
+                    allpowers(1) ;
+                    playerhitsfx(120) ;//enable
+                    break ;
+                }
+            case 9 : 
+                {
+                    allpowers(0) ;
+                    attackswingsfx(120) ;//disable
+                    break ;
+                }
+            case 10 : 
+                {
+                    jumpending() ;
+                    playerhitsfx(120) ;//enable
+                    break ;
+                }
+            default : break ;
+        }
+        
+        if ( cheatnum == 99 || cheatnum == 10) 
+        {
+            break ;
+        }
+    }
 	memset(screenbuf3,0x5D,12L) ;
 	writegamemessage(screenbuf3) ;
 	writegamemessage(screenbuf3) ;

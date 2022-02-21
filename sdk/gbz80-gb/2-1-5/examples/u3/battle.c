@@ -1387,6 +1387,9 @@ UBYTE castspell(UBYTE pnum, UBYTE mn)
 //n) Dag Mentar - damages multiple/all foes (book isn't clear)
 //o) Necorp - weakens foes
 //p)        - smegs all foes 
+	if ( cheat_fullmp!=0 )
+		players[pnum].magic = 99 ;
+    
 	return 1 ;   
 }
 

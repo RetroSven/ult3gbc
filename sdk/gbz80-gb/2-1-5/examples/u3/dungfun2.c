@@ -1162,6 +1162,8 @@ UBYTE docastspell2(UBYTE pnum)
 	}
 	charscreen7(&players[pnum],pnum) ;
 
+	if ( cheat_fullmp!=0 )
+		players[pnum].magic = 99 ;
 	return 1 ;   
 }
 

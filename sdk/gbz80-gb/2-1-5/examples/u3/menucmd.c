@@ -1553,6 +1553,8 @@ UBYTE docastspell(UBYTE pnum)
 	}
 	charscreen4(&players[pnum],pnum) ;
 
+	if ( cheat_fullmp!=0 )
+		players[pnum].magic = 99 ;
 	return 1 ;   
 }
 

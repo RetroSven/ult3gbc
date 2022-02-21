@@ -49,3 +49,5 @@
 ..\..\bin\lcc -Wa-l  -Wf-bo47 -c -o wtitle5.o wtitle5.c
 ..\..\bin\lcc -Wa-l  -Wf-bo48 -c -o wtitle6.o wtitle6.c
 ..\..\bin\lcc -Wl-m -Wl-yo64 -Wl-ya4 -Wl-yt0x1B -Wl-yp0x143=0x80 -o ult3.gb *.o
+del ..\..\..\..\..\ult3.gb
+move ult3.gb ..\..\..\..\..

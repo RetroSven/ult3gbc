@@ -587,7 +587,7 @@ UBYTE testplayerdex(UBYTE pnum)
 
 }
 
-void update_screen_dungeon()
+void update_screen_dungeon(UBYTE dofunctions)
 {
 	UBYTE n, iterx, itery, mask ;
 	UBYTE smallmap ;
@@ -716,16 +716,24 @@ void update_screen_dungeon()
 	set_sprite_tile(36,0x51) ;
 	set_sprite_tile(37,0x51) ;
 
-	if ( currdungtile==3 ) //strange winds
+	if ( dofunctions != 0 && currdungtile==3 ) //strange winds
 	{
 		writegamemessage(strangewinddat) ;
 		torchtime = 0 ;
 	}
 	if ( torchtime )
-		torchtime-- ;
+    {
+        if ( dofunctions != 0 ) 
+        {
+            torchtime-- ;
+        }
+    }
 	else
 	{
-		writegamemessage(darkdat) ;
+        if ( dofunctions != 0 ) 
+        {
+            writegamemessage(darkdat) ;
+        }
 		if ( LCDC_REG&0x08 )
 			LCDC_REG &= 0xF7 ;	//select $9800-$9BFF
 		else
@@ -1162,329 +1170,331 @@ void update_screen_dungeon()
 	else
 		LCDC_REG |= 0x08 ;	//select $9C00-$9FFF
 
-	if ( currdungtile==8 ) //misty writing
-	{
-		writegamemessage(mistydat) ;
-		writegamemessage(dungtextdat+((UWORD)dungnumber*192UL)+((UWORD)dunglevel*24L)) ;
-		writegamemessage(dungtextdat+((UWORD)dungnumber*192UL)+((UWORD)dunglevel*24L)+12L) ;
+    if ( dofunctions != 0 ) 
+    {
+        if ( currdungtile==8 ) //misty writing
+        {
+            writegamemessage(mistydat) ;
+            writegamemessage(dungtextdat+((UWORD)dungnumber*192UL)+((UWORD)dunglevel*24L)) ;
+            writegamemessage(dungtextdat+((UWORD)dungnumber*192UL)+((UWORD)dunglevel*24L)+12L) ;
 
-	}
-	else
-		if ( currdungtile==6 ) //gremlins
-	{
-		writegamemessage(gremlinsdat) ;
-		attackmisssfx(120U) ;
+        }
+        else
+            if ( currdungtile==6 ) //gremlins
+        {
+            writegamemessage(gremlinsdat) ;
+            attackmisssfx(120U) ;
 
-		while ( !(players[(n= (make_rnd(4)))].inparty) )
-			;
-		if ( players[n].food <= 100L )
-			players[n].food = 0L ;
-		else
-			players[n].food	-= 100L ;
-		*((unsigned char*)(0xA000+(((UWORD)dunglevel)*0x100L)+(UWORD)(dungy<<4U)+(UWORD)dungx)) = 0x00 ;
-		currdungtile = 0 ;
-		dungrefresh=2 ;
+            while ( !(players[(n= (make_rnd(4)))].inparty) )
+                ;
+            if ( players[n].food <= 100L )
+                players[n].food = 0L ;
+            else
+                players[n].food	-= 100L ;
+            *((unsigned char*)(0xA000+(((UWORD)dunglevel)*0x100L)+(UWORD)(dungy<<4U)+(UWORD)dungx)) = 0x00 ;
+            currdungtile = 0 ;
+            dungrefresh=2 ;
 
-	}
-	else
-		if ( currdungtile==4 ) //trap
-	{
-		*((unsigned char*)(0xA000+(((UWORD)dunglevel)*0x100L)+(UWORD)(dungy<<4U)+(UWORD)dungx)) = 0x00 ;
-		currdungtile = 0 ;
-		writegamemessage(trapdat) ;
-		if ( testplayerdex(0) )
-		{
+        }
+        else
+            if ( currdungtile==4 ) //trap
+        {
+            *((unsigned char*)(0xA000+(((UWORD)dunglevel)*0x100L)+(UWORD)(dungy<<4U)+(UWORD)dungx)) = 0x00 ;
+            currdungtile = 0 ;
+            writegamemessage(trapdat) ;
+            if ( testplayerdex(0) )
+            {
 
-			dungrefresh = 2 ;
-			cannonfire() ;
-			/*
-		   for (q = 0 ; q!=4 ; q++)
-		   {
-			   if ((!(players[q].inparty))||(players[q].status>1))
-				   continue ;
+                dungrefresh = 2 ;
+                cannonfire() ;
+                /*
+            for (q = 0 ; q!=4 ; q++)
+            {
+                if ((!(players[q].inparty))||(players[q].status>1))
+                    continue ;
 
-			  //trapeffect(q) ;
-			  r = (UBYTE)  (((((UWORD)arand()&0x00FF)*25UL)/255UL)) ;
-			  if (r<10)
-				 r += 5 ;
-			  if ( (UWORD)r < players[q].currHP)
-				 players[q].currHP -= (UWORD)r ;
-			  else
-			  {
-				 players[q].currHP = 0L ;
-				 players[q].status = 0x02 ;
-				 numalive-- ;
-				 writegamemessage(deaddat5) ;
-			
-			  }
-		   }
-			  */
-		}
-		else
-		{
-			writegamemessage(trapevadeddat) ;
-			attackmisssfx(120U) ;
+                //trapeffect(q) ;
+                r = (UBYTE)  (((((UWORD)arand()&0x00FF)*25UL)/255UL)) ;
+                if (r<10)
+                    r += 5 ;
+                if ( (UWORD)r < players[q].currHP)
+                    players[q].currHP -= (UWORD)r ;
+                else
+                {
+                    players[q].currHP = 0L ;
+                    players[q].status = 0x02 ;
+                    numalive-- ;
+                    writegamemessage(deaddat5) ;
+                
+                }
+            }
+                */
+            }
+            else
+            {
+                writegamemessage(trapevadeddat) ;
+                attackmisssfx(120U) ;
 
-		}
-
-
-	}
-	else
-		if ( currdungtile==2 ) //fountain
-	{
-		changemusic = 3 ;
-		if ( LCDC_REG&0x08 )
-			set_data2((unsigned char*)0x9800,(unsigned char*)0x9C00,0x400L) ;
-		else
-			set_data2((unsigned char*)0x9C00,(unsigned char*)0x9800,0x400L)	;
-
-		set_bkg_tiles2(1,1,11,11,fountainmap) ;
-		memset(metile,0x01,11L) ;
-		VBK_REG=1 ;
-		for ( r=0 ; r!=11 ; r++ )
-			set_bkg_tiles2(1,1+r,11,1,metile) ;
-		VBK_REG=0 ;
-
-		writegamemessage(fountaindat1) ;
-		writegamemessage(fountaindat2) ;
-		r = choosechar6() ;
-		if ( r!=99 )
-		{
-			if ( players[r].status<2 )
-			{
-				if ( (dungx&0x03)==0 ) //poison
-				{
-					writegamemessage(fountres2) ;
-					if ( players[r].status==0 )
-						players[r].status = 1 ;
-					flashchar(r,0) ;
-
-				}
-				else
-					if ( (dungx&0x03)==1 ) //health max
-				{
-					writegamemessage(fountres1) ;
-					players[r].currHP = players[r].maxHP ;
-
-				}
-				else
-					if ( (dungx&0x03)==2 ) //25 damage
-				{
-
-					writegamemessage(fountres4) ;
-					flashchar(r,0) ;
-					if ( players[r].currHP<26L )
-					{
-						players[r].currHP = 0L ;
-						players[r].status = 2 ;
-						numalive-- ;
-						writegamemessage(deaddat5) ;
-					}
-					else
-						players[r].currHP -= 25L ;
-				}
-				else
-					if ( (dungx&0x03)==3 ) //cure poison
-				{
-					writegamemessage(fountres3) ;
-					if ( players[r].status==1 )
-						players[r].status = 0 ;
-
-				}
-
-			}
-			else
-			{
-				writegamemessage(cantdat) ;
-				attackmisssfx(120U) ;
-			}
+            }
 
 
+        }
+        else
+            if ( currdungtile==2 ) //fountain
+        {
+            changemusic = 3 ;
+            if ( LCDC_REG&0x08 )
+                set_data2((unsigned char*)0x9800,(unsigned char*)0x9C00,0x400L) ;
+            else
+                set_data2((unsigned char*)0x9C00,(unsigned char*)0x9800,0x400L)	;
 
-		}
-		memset(metile,0x02,11L) ;
-		VBK_REG=1 ;
-		for ( r=0 ; r!=11 ; r++ )
-			set_bkg_tiles2(1,1+r,11,1,metile) ;
-		VBK_REG=0 ;
-		if ( LCDC_REG&0x08 )
-			set_data2((unsigned char*)0x9C00,(unsigned char*)0x9800,12L*32L) ;
-		else
-			set_data2((unsigned char*)0x9800,(unsigned char*)0x9C00,12L*32L) ;
-		dungrefresh = 2 ;
-		changemusic = 6 ;
+            set_bkg_tiles2(1,1,11,11,fountainmap) ;
+            memset(metile,0x01,11L) ;
+            VBK_REG=1 ;
+            for ( r=0 ; r!=11 ; r++ )
+                set_bkg_tiles2(1,1+r,11,1,metile) ;
+            VBK_REG=0 ;
 
-	}
-	else
-		if ( currdungtile==5 ) //mark
-	{
-		changemusic = 3 ;
-		if ( LCDC_REG&0x08 )
-			set_data2((unsigned char*)0x9800,(unsigned char*)0x9C00,0x400L) ;
-		else
-			set_data2((unsigned char*)0x9C00,(unsigned char*)0x9800,0x400L)	;
-		set_bkg_data2(  0x2A, 0x01, u3tiles+(UWORD)(((UWORD)(mode8tiles)+0x2AL)<<4) );
+            writegamemessage(fountaindat1) ;
+            writegamemessage(fountaindat2) ;
+            r = choosechar6() ;
+            if ( r!=99 )
+            {
+                if ( players[r].status<2 )
+                {
+                    if ( (dungx&0x03)==0 ) //poison
+                    {
+                        writegamemessage(fountres2) ;
+                        if ( players[r].status==0 )
+                            players[r].status = 1 ;
+                        flashchar(r,0) ;
 
-		memset(metile,0x5d,11L);
-		for ( r=0 ; r!=2 ; r++ )
-		{
-			set_bkg_tiles2(1,1+r,11,1,metile) ;
-			set_bkg_tiles2(1,10+r,11,1,metile) ;
-		}
-		memset(metile,0x3a,11L);
-		for ( r=0 ; r!=7 ; r++ )
-			set_bkg_tiles2(1,3+r,11,1,metile) ;
-		metile[0] = 0x2a ;
-		set_bkg_tiles2(6,6,1,1,metile) ;
-		metile[0] = 0x00 ;
-		VBK_REG=1 ;
-		set_bkg_tiles2(6,6,1,1,metile) ;
-		VBK_REG=0 ;
+                    }
+                    else
+                        if ( (dungx&0x03)==1 ) //health max
+                    {
+                        writegamemessage(fountres1) ;
+                        players[r].currHP = players[r].maxHP ;
 
-		writegamemessage(markdat1) ;
-		writegamemessage(markdat2) ;
-		writegamemessage(markdat3) ;
-		writegamemessage(markdat4) ;
-		r = choosechar6() ;
-		if ( r!=99 )
-		{
-			if ( players[r].status<2 )
-			{
-				if ( players[r].currHP <=50L )
-				{
-					writegamemessage(killeddat2) ;
-					players[r].currHP = 0L ;
-					players[r].status = 2 ;
-					numalive-- ;
-				}
-				else
-				{
-					writegamemessage(leftmarkdat) ;
-					if ( (dungx&0x03)==0 ) //force
-						players[r].markcard |= 0x10 ;
-					if ( (dungx&0x03)==1 ) //fire
-						players[r].markcard |= 0x20 ;
-					if ( (dungx&0x03)==2 ) //snake
-						players[r].markcard |= 0x40 ;
-					if ( (dungx&0x03)==3 ) //kings
-						players[r].markcard |= 0x80U ;
-					players[r].currHP -= 50L ;
+                    }
+                    else
+                        if ( (dungx&0x03)==2 ) //25 damage
+                    {
 
-				}
-				flashchar(r,0) ;
+                        writegamemessage(fountres4) ;
+                        flashchar(r,0) ;
+                        if ( players[r].currHP<26L )
+                        {
+                            players[r].currHP = 0L ;
+                            players[r].status = 2 ;
+                            numalive-- ;
+                            writegamemessage(deaddat5) ;
+                        }
+                        else
+                            players[r].currHP -= 25L ;
+                    }
+                    else
+                        if ( (dungx&0x03)==3 ) //cure poison
+                    {
+                        writegamemessage(fountres3) ;
+                        if ( players[r].status==1 )
+                            players[r].status = 0 ;
 
-			}
-			else
-			{
-				writegamemessage(cantdat) ;
-			}
+                    }
 
-		}
-		metile[0] = 0x02 ;
-		VBK_REG=1 ;
-		set_bkg_tiles2(6,6,1,1,metile) ;
-		VBK_REG=0 ;
-		if ( LCDC_REG&0x08 )
-			set_data2((unsigned char*)0x9C00,(unsigned char*)0x9800,12L*32L) ;
-		else
-			set_data2((unsigned char*)0x9800,(unsigned char*)0x9C00,12L*32L) ;
-		dungrefresh = 2 ;
-
-		changemusic = 6 ;
-
-	}
-	else
-		if ( currdungtile==1 )	//time lord
-	{
-		changemusic = 3 ;
-		if ( LCDC_REG&0x08 )
-			set_data2((unsigned char*)0x9800,(unsigned char*)0x9C00,0x400L) ;
-		else
-			set_data2((unsigned char*)0x9C00,(unsigned char*)0x9800,0x400L)	;
-		set_bkg_data2(  0x26, 0x01, u3tiles+(UWORD)(((UWORD)(mode4tiles)+0x26L)<<4) );
-		set_bkg_data2(  0x32, 0x01, u3tiles+(UWORD)(((UWORD)(mode8tiles)+0x32L)<<4) );
-
-		set_bkg_tiles2(1,1,11,11,timelordmap) ;
-		memset(metile,0x03,11L);
-		VBK_REG=1 ;
-		for ( r=0 ; r!=11 ;r++ )
-		{
-			set_bkg_tiles2(1,1+r,11,1,metile) ;
-		}
-		metile[0] = 1 ;
-		set_bkg_tiles2(6,8,1,1,metile) ;
-		VBK_REG=0 ;
-
-		writegamemessage(timedat1) ;
-		writegamemessage(timedat2) ;
-		writegamemessage(timedat3) ;
-		waitpadup() ;
-		q=0 ;
-		while ( 1 )
-		{
-			q++ ;
-			if ( q>240 )
-			{
-				if ( mode8tiles==7 )
-					mode8tiles=0 ;
-				else
-					mode8tiles++ ;
-				if ( mode4tiles==3 )
-					mode4tiles=0 ;
-				else
-					mode4tiles++ ;
-				q=0 ;
-			}
-			set_bkg_data2(  0x26, 0x01, u3tiles+(UWORD)(((UWORD)(mode4tiles)+0x26L)<<4) );
-			set_bkg_data2(  0x32, 0x01, u3tiles+(UWORD)(((UWORD)(mode8tiles)+0x32L)<<4) );
-			if ( joypad() )
-				break ;
-		}
-		writegamemessage(timedat4) ;
-		writegamemessage(timedat5) ;
-		writegamemessage(timedat6) ;
-		writegamemessage(timedat7) ;
-		waitpadup() ;
-		while ( 1 )
-		{
-			q++ ;
-			if ( q>240 )
-			{
-				if ( mode8tiles==7 )
-					mode8tiles=0 ;
-				else
-					mode8tiles++ ;
-				if ( mode4tiles==3 )
-					mode4tiles=0 ;
-				else
-					mode4tiles++ ;
-				q=0 ;
-			}
-			set_bkg_data2(  0x26, 0x01, u3tiles+(UWORD)(((UWORD)(mode4tiles)+0x26L)<<4) );
-			set_bkg_data2(  0x32, 0x01, u3tiles+(UWORD)(((UWORD)(mode8tiles)+0x32L)<<4) );
-			if ( joypad() )
-				break ;
-		}
-		waitpadup() ;
-
-		memset(metile,0x02,11L);
-		VBK_REG=1 ;
-		for ( r=0 ; r!=11 ;r++ )
-		{
-			set_bkg_tiles2(1,1+r,11,1,metile) ;
-		}
-		VBK_REG=0 ;
+                }
+                else
+                {
+                    writegamemessage(cantdat) ;
+                    attackmisssfx(120U) ;
+                }
 
 
-		if ( LCDC_REG&0x08 )
-			set_data2((unsigned char*)0x9C00,(unsigned char*)0x9800,12L*32L) ;
-		else
-			set_data2((unsigned char*)0x9800,(unsigned char*)0x9C00,12L*32L) ;
-		dungrefresh = 2 ;
-		changemusic = 6 ;
 
-	}
+            }
+            memset(metile,0x02,11L) ;
+            VBK_REG=1 ;
+            for ( r=0 ; r!=11 ; r++ )
+                set_bkg_tiles2(1,1+r,11,1,metile) ;
+            VBK_REG=0 ;
+            if ( LCDC_REG&0x08 )
+                set_data2((unsigned char*)0x9C00,(unsigned char*)0x9800,12L*32L) ;
+            else
+                set_data2((unsigned char*)0x9800,(unsigned char*)0x9C00,12L*32L) ;
+            dungrefresh = 2 ;
+            changemusic = 6 ;
 
+        }
+        else
+            if ( currdungtile==5 ) //mark
+        {
+            changemusic = 3 ;
+            if ( LCDC_REG&0x08 )
+                set_data2((unsigned char*)0x9800,(unsigned char*)0x9C00,0x400L) ;
+            else
+                set_data2((unsigned char*)0x9C00,(unsigned char*)0x9800,0x400L)	;
+            set_bkg_data2(  0x2A, 0x01, u3tiles+(UWORD)(((UWORD)(mode8tiles)+0x2AL)<<4) );
+
+            memset(metile,0x5d,11L);
+            for ( r=0 ; r!=2 ; r++ )
+            {
+                set_bkg_tiles2(1,1+r,11,1,metile) ;
+                set_bkg_tiles2(1,10+r,11,1,metile) ;
+            }
+            memset(metile,0x3a,11L);
+            for ( r=0 ; r!=7 ; r++ )
+                set_bkg_tiles2(1,3+r,11,1,metile) ;
+            metile[0] = 0x2a ;
+            set_bkg_tiles2(6,6,1,1,metile) ;
+            metile[0] = 0x00 ;
+            VBK_REG=1 ;
+            set_bkg_tiles2(6,6,1,1,metile) ;
+            VBK_REG=0 ;
+
+            writegamemessage(markdat1) ;
+            writegamemessage(markdat2) ;
+            writegamemessage(markdat3) ;
+            writegamemessage(markdat4) ;
+            r = choosechar6() ;
+            if ( r!=99 )
+            {
+                if ( players[r].status<2 )
+                {
+                    if ( players[r].currHP <=50L )
+                    {
+                        writegamemessage(killeddat2) ;
+                        players[r].currHP = 0L ;
+                        players[r].status = 2 ;
+                        numalive-- ;
+                    }
+                    else
+                    {
+                        writegamemessage(leftmarkdat) ;
+                        if ( (dungx&0x03)==0 ) //force
+                            players[r].markcard |= 0x10 ;
+                        if ( (dungx&0x03)==1 ) //fire
+                            players[r].markcard |= 0x20 ;
+                        if ( (dungx&0x03)==2 ) //snake
+                            players[r].markcard |= 0x40 ;
+                        if ( (dungx&0x03)==3 ) //kings
+                            players[r].markcard |= 0x80U ;
+                        players[r].currHP -= 50L ;
+
+                    }
+                    flashchar(r,0) ;
+
+                }
+                else
+                {
+                    writegamemessage(cantdat) ;
+                }
+
+            }
+            metile[0] = 0x02 ;
+            VBK_REG=1 ;
+            set_bkg_tiles2(6,6,1,1,metile) ;
+            VBK_REG=0 ;
+            if ( LCDC_REG&0x08 )
+                set_data2((unsigned char*)0x9C00,(unsigned char*)0x9800,12L*32L) ;
+            else
+                set_data2((unsigned char*)0x9800,(unsigned char*)0x9C00,12L*32L) ;
+            dungrefresh = 2 ;
+
+            changemusic = 6 ;
+
+        }
+        else
+            if ( currdungtile==1 )	//time lord
+        {
+            changemusic = 3 ;
+            if ( LCDC_REG&0x08 )
+                set_data2((unsigned char*)0x9800,(unsigned char*)0x9C00,0x400L) ;
+            else
+                set_data2((unsigned char*)0x9C00,(unsigned char*)0x9800,0x400L)	;
+            set_bkg_data2(  0x26, 0x01, u3tiles+(UWORD)(((UWORD)(mode4tiles)+0x26L)<<4) );
+            set_bkg_data2(  0x32, 0x01, u3tiles+(UWORD)(((UWORD)(mode8tiles)+0x32L)<<4) );
+
+            set_bkg_tiles2(1,1,11,11,timelordmap) ;
+            memset(metile,0x03,11L);
+            VBK_REG=1 ;
+            for ( r=0 ; r!=11 ;r++ )
+            {
+                set_bkg_tiles2(1,1+r,11,1,metile) ;
+            }
+            metile[0] = 1 ;
+            set_bkg_tiles2(6,8,1,1,metile) ;
+            VBK_REG=0 ;
+
+            writegamemessage(timedat1) ;
+            writegamemessage(timedat2) ;
+            writegamemessage(timedat3) ;
+            waitpadup() ;
+            q=0 ;
+            while ( 1 )
+            {
+                q++ ;
+                if ( q>240 )
+                {
+                    if ( mode8tiles==7 )
+                        mode8tiles=0 ;
+                    else
+                        mode8tiles++ ;
+                    if ( mode4tiles==3 )
+                        mode4tiles=0 ;
+                    else
+                        mode4tiles++ ;
+                    q=0 ;
+                }
+                set_bkg_data2(  0x26, 0x01, u3tiles+(UWORD)(((UWORD)(mode4tiles)+0x26L)<<4) );
+                set_bkg_data2(  0x32, 0x01, u3tiles+(UWORD)(((UWORD)(mode8tiles)+0x32L)<<4) );
+                if ( joypad() )
+                    break ;
+            }
+            writegamemessage(timedat4) ;
+            writegamemessage(timedat5) ;
+            writegamemessage(timedat6) ;
+            writegamemessage(timedat7) ;
+            waitpadup() ;
+            while ( 1 )
+            {
+                q++ ;
+                if ( q>240 )
+                {
+                    if ( mode8tiles==7 )
+                        mode8tiles=0 ;
+                    else
+                        mode8tiles++ ;
+                    if ( mode4tiles==3 )
+                        mode4tiles=0 ;
+                    else
+                        mode4tiles++ ;
+                    q=0 ;
+                }
+                set_bkg_data2(  0x26, 0x01, u3tiles+(UWORD)(((UWORD)(mode4tiles)+0x26L)<<4) );
+                set_bkg_data2(  0x32, 0x01, u3tiles+(UWORD)(((UWORD)(mode8tiles)+0x32L)<<4) );
+                if ( joypad() )
+                    break ;
+            }
+            waitpadup() ;
+
+            memset(metile,0x02,11L);
+            VBK_REG=1 ;
+            for ( r=0 ; r!=11 ;r++ )
+            {
+                set_bkg_tiles2(1,1+r,11,1,metile) ;
+            }
+            VBK_REG=0 ;
+
+
+            if ( LCDC_REG&0x08 )
+                set_data2((unsigned char*)0x9C00,(unsigned char*)0x9800,12L*32L) ;
+            else
+                set_data2((unsigned char*)0x9800,(unsigned char*)0x9C00,12L*32L) ;
+            dungrefresh = 2 ;
+            changemusic = 6 ;
+
+        }
+    }
 
 }
 
