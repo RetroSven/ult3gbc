@@ -1141,7 +1141,7 @@ void generatemonsters()
 	{
 		if ( inside==0 )
 		{
-			if ( ((make_rnd(0xA5U))&0x80U)&&(nummonsters<31) )
+			if ( ((make_rnd(0x89U))&0x80U)&&(nummonsters<31) )
 			{
 				montile = montilearr[make_rnd(13)&make_rnd(13)] ;
 
