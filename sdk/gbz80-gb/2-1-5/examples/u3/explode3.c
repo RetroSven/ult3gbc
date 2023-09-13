@@ -1728,7 +1728,7 @@ void shoot_animate3()
 	for ( dlcv = 0 ; dlcv != 7 ; dlcv++ )
 	{
 
-		if ( LCDC_REG&0x08 )
+		if ( LCDC_REG&0x10 )
 		{
 			vidbase = (unsigned char*)0x9800 ;
 			set_bkg_data2(  0, 100U, explodeframes3[dlcv] );
@@ -1778,10 +1778,10 @@ void shoot_animate3()
 		set_bkg_palette( 0, 8, explodepals3[dlcv] );
 
 
-		if ( LCDC_REG&0x08 )
-			LCDC_REG &= 0xF7 ;	//select $9800-$9BFF
+		if ( LCDC_REG&0x10 )
+			LCDC_REG &= 0xEF ;	//select $9800-$9BFF
 		else
-			LCDC_REG |= 0x08 ;	//select $9C00-$9FFF
+			LCDC_REG |= 0x10 ;	//select $9C00-$9FFF
 
 
 

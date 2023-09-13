@@ -1801,7 +1801,7 @@ void demon_animate()
 	VBK_REG=1 ;
 	set_bkg_data2(  0, 156U, demonframes[0] );
 
-	if ( LCDC_REG&0x08 )
+	if ( LCDC_REG&0x10 )
 		vidbase = (unsigned char*)0x9C00 ;
 	else
 		vidbase	= (unsigned char*)0x9800 ;
@@ -1849,7 +1849,7 @@ void demon_animate()
 
 
 
-			if ( LCDC_REG&0x08 )
+			if ( LCDC_REG&0x10 )
 			{
 				vidbase = (unsigned char*)0x9800 ;
 				set_bkg_data2(  0, 156U, demonframes[dlcv] );
@@ -1912,16 +1912,16 @@ void demon_animate()
 			VBK_REG = 0;  // select palette bank 
 
 			while ( LY_REG != 143U )
-//			while ( (LCDC_REG & 0x01) != 0x01 )
+//			while ( (LCDC_REG & 0x80) != 0x80 )
 				;  //empty loop
 
 			set_bkg_palette( 0, 8, demonpals[dlcv] );
 
 
-			if ( LCDC_REG&0x08 )
-				LCDC_REG &= 0xF7 ;	//select $9800-$9BFF
+			if ( LCDC_REG&0x10 )
+				LCDC_REG &= 0xEF ;	//select $9800-$9BFF
 			else
-				LCDC_REG |= 0x08 ;	//select $9C00-$9FFF
+				LCDC_REG |= 0x10 ;	//select $9C00-$9FFF
 
 
 
@@ -1930,10 +1930,10 @@ void demon_animate()
 
 			//delay(10) ;
 /*
-			if (LCDC_REG&0x08)
-				LCDC_REG &= 0xF7 ;  //select $9800-$9BFF
+			if (LCDC_REG&0x10)
+				LCDC_REG &= 0xEF ;  //select $9800-$9BFF
 			else
-				LCDC_REG |= 0x08 ;  //select $9C00-$9FFF
+				LCDC_REG |= 0x10 ;  //select $9C00-$9FFF
 */
 			//enable_interrupts2() ;
 //			waitpad(J_START) ;
@@ -1952,7 +1952,7 @@ void demon_animate()
 
 
 
-			if ( LCDC_REG&0x08 )
+			if ( LCDC_REG&0x10 )
 			{
 				vidbase = (unsigned char*)0x9800 ;
 				set_bkg_data2(  0, 156U, demonframes[dlcv] );
@@ -1997,15 +1997,15 @@ void demon_animate()
 			VBK_REG = 0;  // select palette bank 
 
 			while ( LY_REG != 143U )
-//			while ( (LCDC_REG&0x01) != 0x01 )
+//			while ( (LCDC_REG&0x80) != 0x80 )
 				;  //empty loop
 
 			set_bkg_palette( 0, 8, demonpals[dlcv] );
 
-			if ( LCDC_REG&0x08 )
-				LCDC_REG &= 0xF7 ;	//select $9800-$9BFF
+			if ( LCDC_REG&0x10 )
+				LCDC_REG &= 0xEF ;	//select $9800-$9BFF
 			else
-				LCDC_REG |= 0x08 ;	//select $9C00-$9FFF
+				LCDC_REG |= 0x10 ;	//select $9C00-$9FFF
 
 
 
@@ -2014,10 +2014,10 @@ void demon_animate()
 
 			//delay(10) ;
 /*
-			if (LCDC_REG&0x08)
-				LCDC_REG &= 0xF7 ;  //select $9800-$9BFF
+			if (LCDC_REG&0x10)
+				LCDC_REG &= 0xEF ;  //select $9800-$9BFF
 			else
-				LCDC_REG |= 0x08 ;  //select $9C00-$9FFF
+				LCDC_REG |= 0x10 ;  //select $9C00-$9FFF
 */
 			//enable_interrupts2() ;
 //			waitpad(J_START) ;

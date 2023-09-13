@@ -45,13 +45,13 @@ font_copy_uncompressed::
 	dec	d
 1$:
 	ldh	a,(.STAT)
-	bit	1,a
+	bit	6,a
 	jr	nz,#.-4
 	ld	a,(bc)
 	ld	(hl+),a
 	inc	bc
 	ldh	a,(.STAT)
-	bit	1,a
+	bit	6,a
 	jr	nz,#.-4
 	ld	a,(bc)
 	ld	(hl),a
@@ -112,12 +112,12 @@ font_copy_compressed_grey1:
 	ld	c,a
 font_copy_compressed_grey2:
 	ldh	a,(.STAT)
-	bit	1,a
+	bit	6,a
 	jr	nz,#.-4
 	ld	(hl),b
 	inc	hl
 	ldh	a,(.STAT)
-	bit	1,a
+	bit	6,a
 	jr	nz,#.-4
 	ld	(hl),c
 	inc	hl
@@ -305,7 +305,7 @@ set_char_no_encoding:
 	LD	BC,#0x9800
 	ADD	HL,BC
 	ldh	a,(.STAT)
-	bit	1,a
+	bit	6,a
 	jr	nz,#.-4
 	LD	(HL),E
 	POP	HL
@@ -404,7 +404,7 @@ _cls::
 	LD	D,#0x20
 2$:
 	ldh	a,(.STAT)
-	bit	1,a
+	bit	6,a
 	jr	nz,#.-4
 	LD	(HL),#.SPACE
 	INC	HL
@@ -510,7 +510,7 @@ _posy::
 	LD	D,#0x20
 2$:
 	LDH	A,(.STAT)
-	AND	#0x02
+	AND	#0x40
 	JR	NZ,2$
 	LD	A,(BC)
 	LD	(HL+),A
@@ -522,7 +522,7 @@ _posy::
 	LD	D,#0x20
 3$:
 	LDH	A,(.STAT)
-	AND	#0x02
+	AND	#0x40
 	JR	NZ,3$
 	LD	A,#.SPACE
 	LD	(HL+),A
@@ -546,7 +546,7 @@ _posy::
 .tmode::
 	DI	
 	LDH	A,(.LCDC)
-	BIT	7,A
+	BIT	0,A
 	JR	Z,1$
 	CALL	.display_off
 	LD	BC,#.vbl

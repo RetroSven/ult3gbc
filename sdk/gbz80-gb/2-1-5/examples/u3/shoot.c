@@ -641,15 +641,15 @@ void endgamegood()
 
 			if ( key&J_START )
 			{
-				if ( LCDC_REG & 0x01 )
+				if ( LCDC_REG & 0x80 )
 				{
-					LCDC_REG &= 0xFE ;
+					LCDC_REG &= 0x7F ;
 					SCX_REG = 0xFC;
 					SCY_REG = 0x80 ;
 				}
 				else
 				{
-					LCDC_REG |= 0x01 ;
+					LCDC_REG |= 0x80 ;
 					SCX_REG = 0xFC;
 					SCY_REG = 0x00 ;
 				}
@@ -917,7 +917,7 @@ void shoot_main()
 	DISPLAY_OFF;
 
 
-	LCDC_REG = 0x47;
+	LCDC_REG = 0xE2;
 	SPRITES_8x16 ;
 	BGP_REG = 0xE4U;
 	OBP0_REG = OBP1_REG = 0x24 ;

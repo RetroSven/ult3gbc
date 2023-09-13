@@ -901,7 +901,7 @@ void dostats(UBYTE which)
 	UBYTE currsel,nextptr ;
 	unsigned char *vidbase2 ;
 
-	if ( LCDC_REG&0x08 )   //select $9C00-$9FFF
+	if ( LCDC_REG&0x10 )   //select $9C00-$9FFF
 		vidbase2 = (unsigned char*)0x9800 ;
 	else
 		vidbase2 = (unsigned char*)0x9C00 ;
@@ -1021,9 +1021,9 @@ void dostats(UBYTE which)
 	enable_interrupts2() ;
 
 	if ( vidbase2==(unsigned char*)0x09800 )
-		LCDC_REG &= 0xF7 ;	//select $9800-$9BFF
+		LCDC_REG &= 0xEF ;	//select $9800-$9BFF
 	else
-		LCDC_REG |= 0x08 ;	//select $9C00-$9FFF
+		LCDC_REG |= 0x10 ;	//select $9C00-$9FFF
 
 	waitpadup() ;
 	while ( done==0 )
@@ -1207,7 +1207,7 @@ void dostats(UBYTE which)
 		VBK_REG=1 ;
 		set_data2(vidbase2,(unsigned char*)0x9C00,0x400) ;
 		VBK_REG=0 ;
-		LCDC_REG |= 0x08 ;	//select $9C00-$9FFF
+		LCDC_REG |= 0x10 ;	//select $9C00-$9FFF
 	}
 	else
 	{
@@ -1215,7 +1215,7 @@ void dostats(UBYTE which)
 		VBK_REG=1 ;
 		set_data2(vidbase2,(unsigned char*)0x9800,0x400) ;
 		VBK_REG=0 ;
-		LCDC_REG &= 0xF7 ;	//select $9800-$9BFF
+		LCDC_REG &= 0xEF ;	//select $9800-$9BFF
 	}
 
 	enable_interrupts2() ;

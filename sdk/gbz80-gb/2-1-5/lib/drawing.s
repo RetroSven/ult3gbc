@@ -76,7 +76,7 @@
 
 	;; Turn the screen off
 	LDH	A,(.LCDC)
-	BIT	7,A
+	BIT	0,A
 	JR	Z,1$
 
 	;; Turn the screen off
@@ -96,7 +96,7 @@
 	LD	A,#72		; Set line at which LCD interrupt occurs
 	LDH	(.LYC),A
 
-	LD	A,#0b01000100	; Set LCD interrupt to occur when LY = LCY
+	LD	A,#0b00100010	; Set LCD interrupt to occur when LY = LCY
 	LDH	(.STAT),A
 
 	LDH	A,(.IE)
@@ -125,10 +125,10 @@
 
 	;; Turn the screen on
 	LDH	A,(.LCDC)
-	OR	#0b10010001	; LCD		= On
+	OR	#0b10001001	; LCD		= On
 				; BG Chr	= 0x8000
 				; BG		= On
-	AND	#0b11110111	; BG Bank	= 0x9800
+	AND	#0b11101111	; BG Bank	= 0x9800
 	LDH	(.LCDC),A
 
 	LD	A,#.G_MODE
@@ -148,7 +148,7 @@
 
 .vbl::
 	LDH	A,(.LCDC)
-	OR	#0b00010000	; Set BG Chr to 0x8000
+	OR	#0b00001000	; Set BG Chr to 0x8000
 	LDH	(.LCDC),A
 
 	LD	A,#72		; Set line at which LCD interrupt occurs
@@ -160,11 +160,11 @@
 .lcd::
 1$:
 	LDH	A,(.STAT)
-	BIT	1,A
+	BIT	6,A
 	JR	NZ,1$
 
 	LDH	A,(.LCDC)
-	AND	#0b11101111	; Set BG Chr to 0x8800
+	AND	#0b11110111	; Set BG Chr to 0x8800
 	LDH	(.LCDC),A
 
 	RET
@@ -1310,7 +1310,7 @@ nchgy$:
 	LD	E,#0x00
 3$:
 	LDH	A,(.STAT)
-	BIT	1,A
+	BIT	6,A
 	JR	NZ,3$
 
 	LD	A,(HL)
@@ -1348,7 +1348,7 @@ nchgy$:
 	LD      C,#0x00
 12$:
 	LDH     A,(.STAT)
-	BIT     1,A
+	BIT     6,A
 	JR      NZ,12$
 
 	LD      A,(HL)
@@ -1380,7 +1380,7 @@ nchgy$:
 	LD      C,#0x00
 22$:
 	LDH     A,(.STAT)
-	BIT     1,A
+	BIT     6,A
 	JR      NZ,22$
 
 	LD      A,(HL)
@@ -1412,7 +1412,7 @@ nchgy$:
 	LD      C,#0xFF
 32$:
 	LDH     A,(.STAT)
-	BIT     1,A
+	BIT     6,A
 	JR      NZ,32$
 
 	LD      A,(HL)
@@ -1452,7 +1452,7 @@ nchgy$:
 
 gp$:
 	LDH	A,(.STAT)
-	BIT	1,A
+	BIT	6,A
 	JR	NZ,gp$
 
 	LD	A,(HL+)
@@ -1579,7 +1579,7 @@ b1$:
 	.endif
 chrwait$:
 	LDH	A,(.STAT)
-	BIT	1,A
+	BIT	6,A
 	JR	NZ,chrwait$
 
 	LD	A,D

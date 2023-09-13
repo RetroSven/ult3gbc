@@ -7,7 +7,7 @@
 .set_xy_wtt::
 	PUSH	HL		; Store WH
 	LDH	A,(.LCDC)
-	BIT	6,A
+	BIT	1,A
 	JR	NZ,1$
 	LD	HL,#0x9800	; HL = origin
 	JR	.set_xy_tt
@@ -19,7 +19,7 @@
 .set_xy_btt::
 	PUSH	HL		; Store WH
 	LDH	A,(.LCDC)
-	BIT	3,A
+	BIT	4,A
 	JR	NZ,1$
 	LD	HL,#0x9800	; HL = origin
 	JR	.set_xy_tt
@@ -49,7 +49,7 @@
 	PUSH	DE		; Store WH
 3$:
 	LDH	A,(.STAT)
-	AND	#0x02
+	AND	#0x40
 	JR	NZ,3$
 
 	LD	A,(BC)		; Copy W tiles

@@ -193,34 +193,34 @@ hiramcpy(UBYTE dst,
 /* ************************************************************ */
 
 #define DISPLAY_ON \
-  LCDC_REG|=0x80U
+  LCDC_REG|=0x01U
 
 #define DISPLAY_OFF \
   display_off();
 
 #define SHOW_BKG \
-  LCDC_REG|=0x01U
+  LCDC_REG|=0x80U
 
 #define HIDE_BKG \
-  LCDC_REG&=0xFEU
+  LCDC_REG&=0x7FU
 
 #define SHOW_WIN \
-  LCDC_REG|=0x20U
-
-#define HIDE_WIN \
-  LCDC_REG&=0xDFU
-
-#define SHOW_SPRITES \
-  LCDC_REG|=0x02U
-
-#define HIDE_SPRITES \
-  LCDC_REG&=0xFDU
-
-#define SPRITES_8x16 \
   LCDC_REG|=0x04U
 
-#define SPRITES_8x8 \
+#define HIDE_WIN \
   LCDC_REG&=0xFBU
+
+#define SHOW_SPRITES \
+  LCDC_REG|=0x40U
+
+#define HIDE_SPRITES \
+  LCDC_REG&=0xBFU
+
+#define SPRITES_8x16 \
+  LCDC_REG|=0x20U
+
+#define SPRITES_8x8 \
+  LCDC_REG&=0xDFU
 
 /* ************************************************************ */
 

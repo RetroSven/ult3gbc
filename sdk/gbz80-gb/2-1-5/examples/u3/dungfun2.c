@@ -378,7 +378,7 @@ UBYTE dopeergem2(UBYTE spell)
 
 	waitpadup() ;
 
-	if ( LCDC_REG&0x08 )
+	if ( LCDC_REG&0x10 )
 	{
 		vidbase = (unsigned char*)0x9800 ;
 	}
@@ -426,19 +426,19 @@ UBYTE dopeergem2(UBYTE spell)
 		}
 	for ( p=9; p<38 ; p++ )
 		move_sprite(p,0,0) ;
-	if ( LCDC_REG & 0x08 )
-		LCDC_REG &= 0xF7 ;	//select $9800-$9BFF
+	if ( LCDC_REG & 0x10 )
+		LCDC_REG &= 0xEF ;	//select $9800-$9BFF
 	else
-		LCDC_REG |= 0x08 ;	//select $9C00-$9FFF
+		LCDC_REG |= 0x10 ;	//select $9C00-$9FFF
 
 
 	waitpad(0xFF) ;
 	waitpadup() ;
 
-	if ( LCDC_REG & 0x08 )
-		LCDC_REG &= 0xF7 ;	//select $9800-$9BFF
+	if ( LCDC_REG & 0x10 )
+		LCDC_REG &= 0xEF ;	//select $9800-$9BFF
 	else
-		LCDC_REG |= 0x08 ;	//select $9C00-$9FFF
+		LCDC_REG |= 0x10 ;	//select $9C00-$9FFF
 
 	return 1 ;
 
@@ -451,7 +451,7 @@ UBYTE getmenuselection6(UBYTE numlines,unsigned char *menudata, void (*descptr)(
 	UBYTE currline ;
 	UBYTE keys ;
 
-	if ( LCDC_REG&0x08 )   //select $9C00-$9FFF
+	if ( LCDC_REG&0x10 )   //select $9C00-$9FFF
 		vidbase = (unsigned char*)0x9C00 ;
 	else
 		vidbase	= (unsigned char*)0x9800 ;

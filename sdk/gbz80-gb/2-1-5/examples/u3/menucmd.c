@@ -719,7 +719,7 @@ UBYTE dopeergem(UBYTE spell)
 	//move_sprite( 5, 0,0 );
 	wait_vbl_done() ;
 
-	if ( LCDC_REG&0x08 )
+	if ( LCDC_REG&0x10 )
 	{
 		vidbase = (unsigned char*)0x9800 ;
 	}
@@ -766,10 +766,10 @@ UBYTE dopeergem(UBYTE spell)
 			set_data2(vidbase+(((UWORD)(p+5))<<5L)+(UWORD)q+6L,(unsigned char*)&tilenum,1L) ;
 			tilenum++ ;
 		}
-	if ( LCDC_REG & 0x08 )
-		LCDC_REG &= 0xF7 ;	//select $9800-$9BFF
+	if ( LCDC_REG & 0x10 )
+		LCDC_REG &= 0xEF ;	//select $9800-$9BFF
 	else
-		LCDC_REG |= 0x08 ;	//select $9C00-$9FFF
+		LCDC_REG |= 0x10 ;	//select $9C00-$9FFF
 
 	DISPLAY_ON ;
 	enable_interrupts2() ;
@@ -785,7 +785,7 @@ UBYTE dopeergem(UBYTE spell)
 		VBK_REG=1 ;
 		set_data2(vidbase,(unsigned char*)0x9C00,0x400) ;
 		VBK_REG=0 ;
-		LCDC_REG |= 0x08 ;	//select $9C00-$9FFF
+		LCDC_REG |= 0x10 ;	//select $9C00-$9FFF
 	}
 	else
 	{
@@ -793,7 +793,7 @@ UBYTE dopeergem(UBYTE spell)
 		VBK_REG=1 ;
 		set_data2(vidbase,(unsigned char*)0x9800,0x400) ;
 		VBK_REG=0 ;
-		LCDC_REG &= 0xF7 ;	//select $9800-$9BFF
+		LCDC_REG &= 0xEF ;	//select $9800-$9BFF
 	}
 
 	peer_semaphore=2 ;
@@ -819,7 +819,7 @@ UBYTE getmenuselection3(UBYTE numlines,unsigned char *menudata, void (*descptr)(
 	UBYTE currline ;
 	UBYTE keys ;
 
-	if ( LCDC_REG&0x08 )   //select $9C00-$9FFF
+	if ( LCDC_REG&0x10 )   //select $9C00-$9FFF
 		vidbase = (unsigned char*)0x9C00 ;
 	else
 		vidbase	= (unsigned char*)0x9800 ;
