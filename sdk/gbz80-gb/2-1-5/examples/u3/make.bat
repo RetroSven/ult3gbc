@@ -1,4 +1,3 @@
-@echo off
 ..\..\bin\lcc -Wa-l  -Wf-bo1 -c -o sosaria.o sosaria.c
 ..\..\bin\lcc -Wa-l  -Wf-bo2 -c -o u3tiles.o u3tiles.c
 ..\..\bin\lcc -Wa-l  -Wf-bo3 -c -o intro.o intro.c
@@ -51,3 +50,4 @@
 ..\..\bin\lcc -Wl-m -Wl-yo64 -Wl-ya4 -Wl-yt0x1B -Wl-yp0x143=0x80 -o ult3.pocket *.o
 del ..\..\..\..\..\ult3.pocket
 move ult3.pocket ..\..\..\..\..
+pause
