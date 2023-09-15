@@ -381,8 +381,8 @@ _sys_time::
 _wait_vbl_done::
 	;; Check if the screen is on
 	LDH	A,(.LCDC)
-	AND	#0b00000001
-	RET	Z		; Return if screen is off
+	RRA
+	RET	NC		; Return if screen is off
 1$:
 	HALT			; Wait for any interrupt
 	NOP			; HALT sometimes skips the next instruction
@@ -399,8 +399,8 @@ _wait_vbl_done::
 _display_off::
 	;; Check if the screen is on
 	LDH	A,(.LCDC)
-	AND	#0b00000001
-	RET	Z		; Return if screen is off
+	RRA
+	RET	NC		; Return if screen is off
 1$:				; We wait for the *NEXT* VBL 
 	LDH	A,(.LY)
 	CP	#0x92		; Smaller than or equal to 0x91?
