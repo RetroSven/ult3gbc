@@ -1,0 +1,1 @@
+.ANALOGUE_POCKET = 1 

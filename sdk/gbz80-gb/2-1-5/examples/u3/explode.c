@@ -1720,7 +1720,7 @@ void shoot_animate1()
 	VBK_REG=1 ;
 	set_bkg_data2(  0, 100U, explodeframes[0] );
 
-	if ( LCDC_REG&0x10 )
+	if ( LCDC_REG&VIDEO_BUFFER_SECONDARY )
 		vidbase = (unsigned char*)0x9C00 ;
 	else
 		vidbase	= (unsigned char*)0x9800 ;
@@ -1761,7 +1761,7 @@ void shoot_animate1()
 	for ( dlcv = 0 ; dlcv != 7 ; dlcv++ )
 	{
 
-		if ( LCDC_REG&0x10 )
+		if ( LCDC_REG&VIDEO_BUFFER_SECONDARY )
 		{
 			vidbase = (unsigned char*)0x9800 ;
 			set_bkg_data2(  0, 100U, explodeframes[dlcv] );
@@ -1814,10 +1814,10 @@ void shoot_animate1()
 		set_bkg_palette( 0, 8, explodepals[dlcv] );
 
 
-		if ( LCDC_REG&0x10 )
-			LCDC_REG &= 0xEF ;	//select $9800-$9BFF
+		if ( LCDC_REG&VIDEO_BUFFER_SECONDARY )
+			LCDC_REG &= VIDEO_BUFFER_PRIMARY ;	//select $9800-$9BFF
 		else
-			LCDC_REG |= 0x10 ;	//select $9C00-$9FFF
+			LCDC_REG |= VIDEO_BUFFER_SECONDARY ;	//select $9C00-$9FFF
 
 
 

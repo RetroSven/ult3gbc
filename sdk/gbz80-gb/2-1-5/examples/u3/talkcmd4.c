@@ -369,7 +369,7 @@ UBYTE getmenuselection35(UBYTE numlines,unsigned char *menudata, void (*descptr)
 	UBYTE currline ;
 	UBYTE keys ;
 
-	if ( LCDC_REG&0x10 )   //select $9C00-$9FFF
+	if ( LCDC_REG&VIDEO_BUFFER_SECONDARY )   //select $9C00-$9FFF
 		vidbase = (unsigned char*)0x9C00 ;
 	else
 		vidbase	= (unsigned char*)0x9800 ;

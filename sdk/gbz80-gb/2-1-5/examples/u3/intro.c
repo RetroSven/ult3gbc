@@ -104,14 +104,14 @@ void displaymessage(UBYTE xpos, UBYTE ypos, UBYTE xlen, UBYTE ylen,
 	for ( n=0 ; n<ylen ; n++ )
 		set_data2((unsigned char*)(0x9800+(32L*((UWORD)n+(UWORD)ypos))+(UWORD)xpos),msgdata+((UWORD)n*(UWORD)xlen),(UWORD)xlen) ;
 
-	LCDC_REG &= 0xEF ;	//select $9800-$9BFF
+	LCDC_REG &= VIDEO_BUFFER_PRIMARY ;	//select $9800-$9BFF
 
 	waitpad(J_A) ;
 	waitpadup() ;
 
 
 
-	LCDC_REG |= 0x10 ;	//select $9C00-$9FFF
+	LCDC_REG |= VIDEO_BUFFER_SECONDARY ;	//select $9C00-$9FFF
 
 
 }
@@ -142,7 +142,7 @@ UBYTE yesno(unsigned char* questiontext, UBYTE qlen)
 	set_data2((unsigned char*)(0x9808+(32L*14L)),screenbuf1,3L) ;
 	VBK_REG = 0;		// select palette bank 
 
-	LCDC_REG &= 0xEF ;	//select $9800-$9BFF
+	LCDC_REG &= VIDEO_BUFFER_PRIMARY ;	//select $9800-$9BFF
 
 	joykeys = 0 ;
 	retval=1 ;
@@ -188,7 +188,7 @@ UBYTE yesno(unsigned char* questiontext, UBYTE qlen)
 
 	}
 
-	LCDC_REG |= 0x10 ;	//select $9C00-$9FFF
+	LCDC_REG |= VIDEO_BUFFER_SECONDARY ;	//select $9C00-$9FFF
 
 	return(retval==0); 
 }
@@ -326,7 +326,7 @@ void showcharacter(UBYTE which)
 	currarmor = 99 ;
 	currweapon = 99 ;    
 
-	LCDC_REG &= 0xEF ;	//select $9800-$9BFF
+	LCDC_REG &= VIDEO_BUFFER_PRIMARY ;	//select $9800-$9BFF
 
 	while ( done==0 )
 	{
@@ -490,7 +490,7 @@ void showcharacter(UBYTE which)
 
 
 
-	LCDC_REG |= 0x10 ;	//select $9C00-$9FFF
+	LCDC_REG |= VIDEO_BUFFER_SECONDARY ;	//select $9C00-$9FFF
 
 }
 

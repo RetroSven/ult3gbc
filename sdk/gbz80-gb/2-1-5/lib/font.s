@@ -45,13 +45,21 @@ font_copy_uncompressed::
 	dec	d
 1$:
 	ldh	a,(.STAT)
+.if .ANALOGUE_POCKET
 	bit	6,a
+.else
+	bit	1,a
+.endif
 	jr	nz,#.-4
 	ld	a,(bc)
 	ld	(hl+),a
 	inc	bc
 	ldh	a,(.STAT)
+.if .ANALOGUE_POCKET
 	bit	6,a
+.else
+	bit	1,a
+.endif
 	jr	nz,#.-4
 	ld	a,(bc)
 	ld	(hl),a
@@ -112,12 +120,20 @@ font_copy_compressed_grey1:
 	ld	c,a
 font_copy_compressed_grey2:
 	ldh	a,(.STAT)
+.if .ANALOGUE_POCKET
 	bit	6,a
+.else
+	bit	1,a
+.endif
 	jr	nz,#.-4
 	ld	(hl),b
 	inc	hl
 	ldh	a,(.STAT)
+.if .ANALOGUE_POCKET
 	bit	6,a
+.else
+	bit	1,a
+.endif
 	jr	nz,#.-4
 	ld	(hl),c
 	inc	hl
@@ -305,7 +321,11 @@ set_char_no_encoding:
 	LD	BC,#0x9800
 	ADD	HL,BC
 	ldh	a,(.STAT)
+.if .ANALOGUE_POCKET
 	bit	6,a
+.else
+	bit	1,a
+.endif
 	jr	nz,#.-4
 	LD	(HL),E
 	POP	HL
@@ -404,7 +424,11 @@ _cls::
 	LD	D,#0x20
 2$:
 	ldh	a,(.STAT)
+.if .ANALOGUE_POCKET
 	bit	6,a
+.else
+	bit	1,a
+.endif
 	jr	nz,#.-4
 	LD	(HL),#.SPACE
 	INC	HL
@@ -510,7 +534,11 @@ _posy::
 	LD	D,#0x20
 2$:
 	LDH	A,(.STAT)
+.if .ANALOGUE_POCKET
 	AND	#0x40
+.else
+	AND	#0x02
+.endif
 	JR	NZ,2$
 	LD	A,(BC)
 	LD	(HL+),A
@@ -522,7 +550,11 @@ _posy::
 	LD	D,#0x20
 3$:
 	LDH	A,(.STAT)
+.if .ANALOGUE_POCKET
 	AND	#0x40
+.else
+	AND	#0x02
+.endif
 	JR	NZ,3$
 	LD	A,#.SPACE
 	LD	(HL+),A
@@ -546,7 +578,11 @@ _posy::
 .tmode::
 	DI	
 	LDH	A,(.LCDC)
+.if .ANALOGUE_POCKET
 	BIT	0,A
+.else
+	BIT	7,A
+.endif
 	JR	Z,1$
 	CALL	.display_off
 	LD	BC,#.vbl

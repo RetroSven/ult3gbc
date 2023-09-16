@@ -32,7 +32,11 @@ _set_bkg_palette::
 	LD	E,A		; A = first BCPS data
 1$:
 	LDH	A,(.STAT)
+.if .ANALOGUE_POCKET
 	AND	#0x40
+.else
+	AND	#0x02
+.endif
 	JR	NZ,1$
 
 	LD	A,E
@@ -76,7 +80,11 @@ _set_sprite_palette::
 	LD	E,A		; A = first BCPS data
 1$:
 	LDH	A,(.STAT)
+.if .ANALOGUE_POCKET
 	AND	#0x40
+.else
+	AND	#0x02
+.endif
 	JR	NZ,1$
 
 	LD	A,E
@@ -117,7 +125,11 @@ _set_bkg_palette_entry::
 
 1$:
 	LDH	A,(.STAT)
+.if .ANALOGUE_POCKET
 	AND	#0x40
+.else
+	AND	#0x02
+.endif
 	JR	NZ,1$
 
 	LD	A,E
@@ -158,7 +170,11 @@ _set_sprite_palette_entry::
 
 1$:
 	LDH	A,(.STAT)
+.if .ANALOGUE_POCKET
 	AND	#0x40
+.else
+	AND	#0x02
+.endif
 	JR	NZ,1$
 
 	LD	A,E

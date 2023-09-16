@@ -2,6 +2,7 @@
 #define _HARDWARE_H
 
 #include <types.h>
+#include <pocket.h>
 
 #define P1_REG		(*(UBYTE *)0xFF00)	/* Joystick: 1.1.P15.P14.P13.P12.P11.P10 */
 #define SB_REG		(*(UBYTE *)0xFF01)	/* Serial IO data buffer */
@@ -32,7 +33,11 @@
 #define NR50_REG	(*(UBYTE *)0xFF24)	/* Sound register */
 #define NR51_REG	(*(UBYTE *)0xFF25)	/* Sound register */
 #define NR52_REG	(*(UBYTE *)0xFF26)	/* Sound register */
-#define LCDC_REG	(*(UBYTE *)0xFF4E)	/* LCD control */
+#ifdef ANALOGUE_POCKET
+	#define LCDC_REG	(*(UBYTE *)0xFF4E)	/* LCD control */
+#else
+	#define LCDC_REG	(*(UBYTE *)0xFF40)	/* LCD control */
+#endif
 #define STAT_REG	(*(UBYTE *)0xFF41)	/* LCD status */
 #define SCY_REG		(*(UBYTE *)0xFF42)	/* Scroll Y */
 #define SCX_REG		(*(UBYTE *)0xFF43)	/* Scroll X */

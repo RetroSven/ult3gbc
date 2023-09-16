@@ -408,7 +408,7 @@ void update_screen()
 	//need_refresh = 0 ;
 
 
-	if ( LCDC_REG&0x10 )
+	if ( LCDC_REG&VIDEO_BUFFER_SECONDARY )
 	{
 		vidbase = (unsigned char*)0x9800 ;
 		//set_data2((unsigned char*)0x9800,(unsigned char*)0x9C00,0x400UL) ;
@@ -644,10 +644,10 @@ void update_screen()
 
 	VBK_REG = 0;		// select data bank 
 
-	if ( LCDC_REG&0x10 )
-		LCDC_REG &= 0xEF ;	//select $9800-$9BFF
+	if ( LCDC_REG&VIDEO_BUFFER_SECONDARY )
+		LCDC_REG &= VIDEO_BUFFER_PRIMARY ;	//select $9800-$9BFF
 	else
-		LCDC_REG |= 0x10 ;	//select $9C00-$9FFF
+		LCDC_REG |= VIDEO_BUFFER_SECONDARY ;	//select $9C00-$9FFF
 
 
 }
@@ -1437,7 +1437,7 @@ void initcombatscreen(UBYTE n,UBYTE playertile)
 	}
 
 
-	if ( LCDC_REG&0x10 )
+	if ( LCDC_REG&VIDEO_BUFFER_SECONDARY )
 	{
 		vidbase = (unsigned char*)0x9800 ;
 		VBK_REG=1 ;
@@ -1621,10 +1621,10 @@ void initcombatscreen(UBYTE n,UBYTE playertile)
 
 	}
 
-	if ( LCDC_REG&0x10 )
-		LCDC_REG &= 0xEF ;	//select $9800-$9BFF
+	if ( LCDC_REG&VIDEO_BUFFER_SECONDARY )
+		LCDC_REG &= VIDEO_BUFFER_PRIMARY ;	//select $9800-$9BFF
 	else
-		LCDC_REG |= 0x10 ;	//select $9C00-$9FFF
+		LCDC_REG |= VIDEO_BUFFER_SECONDARY ;	//select $9C00-$9FFF
 
 	writegamemessage(conflictdat) ;
 	if ( (monstertile>=0x1D)&&(monstertile<=0x24)&&(playery&0x01) )

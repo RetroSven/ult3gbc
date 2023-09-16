@@ -5,6 +5,7 @@
 #include <hardware.h>
 #include <sgb.h>
 #include <cgb.h>
+#include <pocket.h>
 
 /* Joypad bits */
 
@@ -192,35 +193,92 @@ hiramcpy(UBYTE dst,
 
 /* ************************************************************ */
 
-#define DISPLAY_ON \
-  LCDC_REG|=0x01U
+#ifdef ANALOGUE_POCKET
 
-#define DISPLAY_OFF \
-  display_off();
+	#define DISPLAY_ON \
+	  LCDC_REG|=0x01U
 
-#define SHOW_BKG \
-  LCDC_REG|=0x80U
+	#define DISPLAY_OFF \
+	  display_off();
+	  
+	#define SHOW_BACKGROUND \
+	  0x80
+	#define HIDE_BACKGROUND \
+	  0x7F
 
-#define HIDE_BKG \
-  LCDC_REG&=0x7FU
+	#define SHOW_BKG \
+	  LCDC_REG|=0x80U
 
-#define SHOW_WIN \
-  LCDC_REG|=0x04U
+	#define HIDE_BKG \
+	  LCDC_REG&=0x7FU
 
-#define HIDE_WIN \
-  LCDC_REG&=0xFBU
+	#define SHOW_WIN \
+	  LCDC_REG|=0x04U
 
-#define SHOW_SPRITES \
-  LCDC_REG|=0x40U
+	#define HIDE_WIN \
+	  LCDC_REG&=0xFBU
 
-#define HIDE_SPRITES \
-  LCDC_REG&=0xBFU
+	#define SHOW_SPRITES \
+	  LCDC_REG|=0x40U
 
-#define SPRITES_8x16 \
-  LCDC_REG|=0x20U
+	#define HIDE_SPRITES \
+	  LCDC_REG&=0xBFU
 
-#define SPRITES_8x8 \
-  LCDC_REG&=0xDFU
+	#define SPRITES_8x16 \
+	  LCDC_REG|=0x20U
+
+	#define SPRITES_8x8 \
+	  LCDC_REG&=0xDFU
+	  
+	#define VIDEO_BUFFER_SECONDARY \
+	  0x10
+	
+	#define VIDEO_BUFFER_PRIMARY	\
+	  0xEF
+
+#else
+	#define DISPLAY_ON \
+	  LCDC_REG|=0x80U
+
+	#define DISPLAY_OFF \
+	  display_off();
+	  
+	#define SHOW_BACKGROUND \
+	  0x01
+	#define HIDE_BACKGROUND \
+	  0xFE
+
+	#define SHOW_BKG \
+	  LCDC_REG|=0x01U
+
+	#define HIDE_BKG \
+	  LCDC_REG&=0xFEU
+
+	#define SHOW_WIN \
+	  LCDC_REG|=0x20U
+
+	#define HIDE_WIN \
+	  LCDC_REG&=0xDFU
+
+	#define SHOW_SPRITES \
+	  LCDC_REG|=0x02U
+
+	#define HIDE_SPRITES \
+	  LCDC_REG&=0xFDU
+
+	#define SPRITES_8x16 \
+	  LCDC_REG|=0x04U
+
+	#define SPRITES_8x8 \
+	  LCDC_REG&=0xFBU
+	  
+	#define VIDEO_BUFFER_SECONDARY \
+	  0x08
+	
+	#define VIDEO_BUFFER_PRIMARY	\
+	  0xF7
+	  
+#endif
 
 /* ************************************************************ */
 

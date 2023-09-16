@@ -1673,7 +1673,7 @@ void title_animate5()
 			break ;
 		}
 
-		if ( LCDC_REG&0x10 )
+		if ( LCDC_REG&VIDEO_BUFFER_SECONDARY )
 		{
 			vidbase = (unsigned char*)0x9800 ;
 			set_bkg_data2(  0, 252U, walkframes5[dlcv] );
@@ -1719,10 +1719,10 @@ void title_animate5()
 		set_bkg_palette( 0, 8, walkpals[dlcv+10] );
 
 
-		if ( LCDC_REG&0x10 )
-			LCDC_REG &= 0xEF ;	//select $9800-$9BFF
+		if ( LCDC_REG&VIDEO_BUFFER_SECONDARY )
+			LCDC_REG &= VIDEO_BUFFER_PRIMARY ;	//select $9800-$9BFF
 		else
-			LCDC_REG |= 0x10 ;	//select $9C00-$9FFF
+			LCDC_REG |= VIDEO_BUFFER_SECONDARY ;	//select $9C00-$9FFF
 
 
 

@@ -7,7 +7,11 @@
 .set_xy_wtt::
 	PUSH	HL		; Store WH
 	LDH	A,(.LCDC)
+.if .ANALOGUE_POCKET
 	BIT	1,A
+.else
+	BIT	6,A
+.endif
 	JR	NZ,1$
 	LD	HL,#0x9800	; HL = origin
 	JR	.set_xy_tt
@@ -19,7 +23,11 @@
 .set_xy_btt::
 	PUSH	HL		; Store WH
 	LDH	A,(.LCDC)
+.if .ANALOGUE_POCKET
 	BIT	4,A
+.else
+	BIT	3,A
+.endif
 	JR	NZ,1$
 	LD	HL,#0x9800	; HL = origin
 	JR	.set_xy_tt
@@ -49,7 +57,11 @@
 	PUSH	DE		; Store WH
 3$:
 	LDH	A,(.STAT)
+.if .ANALOGUE_POCKET
 	AND	#0x40
+.else
+	AND	#0x02
+.endif
 	JR	NZ,3$
 
 	LD	A,(BC)		; Copy W tiles
