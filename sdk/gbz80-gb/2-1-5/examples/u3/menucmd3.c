@@ -404,7 +404,7 @@ UBYTE getmenuselection5(UBYTE numlines,unsigned char *menudata, void (*descptr)(
 	UBYTE currline ;
 	UBYTE keys ;
 
-	if ( LCDC_REG&0x08 )   //select $9C00-$9FFF
+	if ( LCDC_REG&VIDEO_BUFFER_SECONDARY )   //select $9C00-$9FFF
 		vidbase = (unsigned char*)0x9C00 ;
 	else
 		vidbase	= (unsigned char*)0x9800 ;
@@ -513,7 +513,7 @@ UBYTE doztats()
 	}
 
 	//move_sprite(5,0,0) ;
-	if ( LCDC_REG&0x08 )   //select $9C00-$9FFF
+	if ( LCDC_REG&VIDEO_BUFFER_SECONDARY )   //select $9C00-$9FFF
 		vidbase2 = (unsigned char*)0x9800 ;
 	else
 		vidbase2 = (unsigned char*)0x9C00 ;
@@ -630,9 +630,9 @@ UBYTE doztats()
 	currweapon = 99 ;    
 
 	if ( vidbase2==(unsigned char*)0x09800 )
-		LCDC_REG &= 0xF7 ;	//select $9800-$9BFF
+		LCDC_REG &= VIDEO_BUFFER_PRIMARY ;	//select $9800-$9BFF
 	else
-		LCDC_REG |= 0x08 ;	//select $9C00-$9FFF
+		LCDC_REG |= VIDEO_BUFFER_SECONDARY ;	//select $9C00-$9FFF
 
 	waitpadup() ;
 	while ( done==0 )
@@ -809,7 +809,7 @@ UBYTE doztats()
 		VBK_REG=1 ;
 		set_data2(vidbase2,(unsigned char*)0x9C00,0x400) ;
 		VBK_REG=0 ;
-		LCDC_REG |= 0x08 ;	//select $9C00-$9FFF
+		LCDC_REG |= VIDEO_BUFFER_SECONDARY ;	//select $9C00-$9FFF
 	}
 	else
 	{
@@ -817,7 +817,7 @@ UBYTE doztats()
 		VBK_REG=1 ;
 		set_data2(vidbase2,(unsigned char*)0x9800,0x400) ;
 		VBK_REG=0 ;
-		LCDC_REG &= 0xF7 ;	//select $9800-$9BFF
+		LCDC_REG &= VIDEO_BUFFER_PRIMARY ;	//select $9800-$9BFF
 	}
 
 	//move_sprite( 5, 56,64 );

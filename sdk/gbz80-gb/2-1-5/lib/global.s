@@ -1,4 +1,4 @@
-
+	.include	"pocket.s"
 	;;  Screen dimensions 
 	.MAXCURSPOSX	= 0x13	; In tiles
 	.MAXCURSPOSY	= 0x11
@@ -54,7 +54,11 @@
 	.NR50		= 0x24	; Sound register
 	.NR51		= 0x25	; Sound register
 	.NR52		= 0x26	; Sound register
-	.LCDC		= 0x40	; LCD control
+	.if .ANALOGUE_POCKET
+		.LCDC		= 0x4E	; LCD control for Analogue Pocket
+	.else
+		.LCDC		= 0x40	; LCD control for GB/GBC
+	.endif
 	.STAT		= 0x41	; LCD status
 	.SCY		= 0x42	; Scroll Y
 	.SCX		= 0x43	; Scroll X

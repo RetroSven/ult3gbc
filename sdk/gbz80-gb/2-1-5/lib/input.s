@@ -62,7 +62,11 @@
 
 	;; Turn the screen off
 	LDH	A,(.LCDC)
+.if .ANALOGUE_POCKET
+	BIT	0,A
+.else
 	BIT	7,A
+.endif
 	JR	Z,1$
 
 	;; Turn the screen off
@@ -109,6 +113,16 @@
 	LDH	(.OBP0),A
 
 	;; Turn the screen on
+.if .ANALOGUE_POCKET
+	LD	A,#0b10000011	; LCD		= On
+				; WindowBank	= 0x9C00
+				; Window	= Off
+				; BG Chr	= 0x8800
+				; BG Bank	= 0x9800
+				; OBJ		= 8x8
+				; OBJ		= Off
+				; BG		= On
+.else
 	LD	A,#0b11000001	; LCD		= On
 				; WindowBank	= 0x9C00
 				; Window	= Off
@@ -117,6 +131,7 @@
 				; OBJ		= 8x8
 				; OBJ		= Off
 				; BG		= On
+.endif
 	LDH	(.LCDC),A
 
 	LD	A,#.T_MODE_INOUT
@@ -271,7 +286,11 @@
 	PUSH	BC
 	PUSH	DE
 	LDH	A,(.LCDC)
+.if .ANALOGUE_POCKET
+	OR	#0b00000100	; Window = On
+.else
 	OR	#0b00100000	; Window = On
+.endif
 	LDH	(.LCDC),A
 	LD	A,#.MAXWNDPOSY	; Show window
 1$:
@@ -309,7 +328,11 @@
 	JR	1$
 3$:
 	LDH	A,(.LCDC)
+.if .ANALOGUE_POCKET
+	AND	#0b11111011	; Window = Off
+.else
 	AND	#0b11011111	; Window = Off
+.endif
 	LDH	(.LCDC),A
 	POP	DE
 	POP	BC
@@ -378,13 +401,21 @@
 	LD	(.msy),A
 	CALL	.set_mouse
 	LDH	A,(.LCDC)
+.if .ANALOGUE_POCKET
+	OR	#0b01000000	; OBJ = On
+.else
 	OR	#0b00000010	; OBJ = On
+.endif
 	LDH	(.LCDC),A
 	RET
 
 .hide_mouse:
 	LDH	A,(.LCDC)
+.if .ANALOGUE_POCKET
+	AND	#0b10111111	; OBJ = Off
+.else
 	AND	#0b11111101	; OBJ = Off
+.endif
 	LDH	(.LCDC),A
 	RET
 

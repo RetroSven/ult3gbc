@@ -3,16 +3,12 @@ This uses a very old version of the Gameboy Development Kit (GBDK) which has som
 WINDOWS:
 
 Copy the "sdk" branch to the root of a main drive (e.g. C:\sdk, D:\sdk, etc)
-cd /d c:\sdk\gbz80-gb\2-1-5\lib
-make
 cd /d c:\sdk\gbz80-gb\2-1-5\examples\u3
 make
 
 LINUX:
 
 Copy/symlink the "sdk" branch to root directory, then:
-cd /sdk/gbz80-gb/2-1-5/lib
-wine cmd /c make.bat
 cd /sdk/gbz80-gb/2-1-5/examples/u3
 wine cmd /c make.bat
 

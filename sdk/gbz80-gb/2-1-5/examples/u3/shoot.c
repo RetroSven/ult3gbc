@@ -641,15 +641,15 @@ void endgamegood()
 
 			if ( key&J_START )
 			{
-				if ( LCDC_REG & 0x01 )
+				if ( LCDC_REG & SHOW_BACKGROUND )
 				{
-					LCDC_REG &= 0xFE ;
+					LCDC_REG &= HIDE_BACKGROUND;
 					SCX_REG = 0xFC;
 					SCY_REG = 0x80 ;
 				}
 				else
 				{
-					LCDC_REG |= 0x01 ;
+					LCDC_REG |= SHOW_BACKGROUND;
 					SCX_REG = 0xFC;
 					SCY_REG = 0x00 ;
 				}
@@ -905,6 +905,12 @@ void write_shoot_stats()
 
 }
 
+#ifdef ANALOGUE_POCKET
+	#define LCDC_SHOOT_INIT 0xE2
+#else
+	#define LCDC_SHOOT_INIT 0x47
+#endif
+
 void shoot_main()
 {
 	UBYTE i ;
@@ -916,8 +922,7 @@ void shoot_main()
 	changemusic = 23 ;
 	DISPLAY_OFF;
 
-
-	LCDC_REG = 0x47;
+	LCDC_REG = LCDC_SHOOT_INIT;
 	SPRITES_8x16 ;
 	BGP_REG = 0xE4U;
 	OBP0_REG = OBP1_REG = 0x24 ;

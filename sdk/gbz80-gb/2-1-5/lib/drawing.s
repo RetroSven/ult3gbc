@@ -76,7 +76,11 @@
 
 	;; Turn the screen off
 	LDH	A,(.LCDC)
+.if .ANALOGUE_POCKET
+	BIT	0,A
+.else
 	BIT	7,A
+.endif
 	JR	Z,1$
 
 	;; Turn the screen off
@@ -96,7 +100,11 @@
 	LD	A,#72		; Set line at which LCD interrupt occurs
 	LDH	(.LYC),A
 
-	LD	A,#0b01000100	; Set LCD interrupt to occur when LY = LCY
+.if .ANALOGUE_POCKET
+	LD	A,#0b00100010	; Set LCD interrupt to occur when LY = LCY
+.else
+	LD	A,#0b01000100
+.endif
 	LDH	(.STAT),A
 
 	LDH	A,(.IE)
@@ -125,10 +133,17 @@
 
 	;; Turn the screen on
 	LDH	A,(.LCDC)
+.if .ANALOGUE_POCKET
+	OR	#0b10001001	; LCD		= On
+				; BG Chr	= 0x8000
+				; BG		= On
+	AND	#0b11101111	; BG Bank	= 0x9800
+.else
 	OR	#0b10010001	; LCD		= On
 				; BG Chr	= 0x8000
 				; BG		= On
 	AND	#0b11110111	; BG Bank	= 0x9800
+.endif
 	LDH	(.LCDC),A
 
 	LD	A,#.G_MODE
@@ -148,7 +163,11 @@
 
 .vbl::
 	LDH	A,(.LCDC)
+.if .ANALOGUE_POCKET
+	OR	#0b00001000	; Set BG Chr to 0x8000
+.else
 	OR	#0b00010000	; Set BG Chr to 0x8000
+.endif
 	LDH	(.LCDC),A
 
 	LD	A,#72		; Set line at which LCD interrupt occurs
@@ -160,11 +179,19 @@
 .lcd::
 1$:
 	LDH	A,(.STAT)
+.if .ANALOGUE_POCKET
+	BIT	6,A
+.else
 	BIT	1,A
+.endif
 	JR	NZ,1$
 
 	LDH	A,(.LCDC)
+.if .ANALOGUE_POCKET
+	AND	#0b11110111	; Set BG Chr to 0x8800
+.else
 	AND	#0b11101111	; Set BG Chr to 0x8800
+.endif
 	LDH	(.LCDC),A
 
 	RET
@@ -1310,7 +1337,11 @@ nchgy$:
 	LD	E,#0x00
 3$:
 	LDH	A,(.STAT)
+.if .ANALOGUE_POCKET
+	BIT	6,A
+.else
 	BIT	1,A
+.endif
 	JR	NZ,3$
 
 	LD	A,(HL)
@@ -1348,7 +1379,11 @@ nchgy$:
 	LD      C,#0x00
 12$:
 	LDH     A,(.STAT)
-	BIT     1,A
+.if .ANALOGUE_POCKET
+	BIT     6,A
+.else
+	BIT	1,A
+.endif
 	JR      NZ,12$
 
 	LD      A,(HL)
@@ -1380,7 +1415,11 @@ nchgy$:
 	LD      C,#0x00
 22$:
 	LDH     A,(.STAT)
-	BIT     1,A
+.if .ANALOGUE_POCKET
+	BIT     6,A
+.else
+	BIT	1,A
+.endif
 	JR      NZ,22$
 
 	LD      A,(HL)
@@ -1412,7 +1451,11 @@ nchgy$:
 	LD      C,#0xFF
 32$:
 	LDH     A,(.STAT)
-	BIT     1,A
+.if .ANALOGUE_POCKET
+	BIT     6,A
+.else
+	BIT	1,A
+.endif
 	JR      NZ,32$
 
 	LD      A,(HL)
@@ -1452,7 +1495,11 @@ nchgy$:
 
 gp$:
 	LDH	A,(.STAT)
+.if .ANALOGUE_POCKET
+	BIT	6,A
+.else
 	BIT	1,A
+.endif
 	JR	NZ,gp$
 
 	LD	A,(HL+)
@@ -1579,7 +1626,11 @@ b1$:
 	.endif
 chrwait$:
 	LDH	A,(.STAT)
+.if .ANALOGUE_POCKET
+	BIT	6,A
+.else
 	BIT	1,A
+.endif
 	JR	NZ,chrwait$
 
 	LD	A,D

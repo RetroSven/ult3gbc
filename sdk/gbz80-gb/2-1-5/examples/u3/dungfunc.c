@@ -603,7 +603,7 @@ void update_screen_dungeon(UBYTE dofunctions)
 
 
 
-	if ( LCDC_REG&0x08 )
+	if ( LCDC_REG&VIDEO_BUFFER_SECONDARY )
 	{
 		vidbase = (unsigned char*)0x9800 ;
 		set_data2((unsigned char*)0x9800,(unsigned char*)0x9C00,0x400UL) ;
@@ -734,10 +734,10 @@ void update_screen_dungeon(UBYTE dofunctions)
         {
             writegamemessage(darkdat) ;
         }
-		if ( LCDC_REG&0x08 )
-			LCDC_REG &= 0xF7 ;	//select $9800-$9BFF
+		if ( LCDC_REG&VIDEO_BUFFER_SECONDARY )
+			LCDC_REG &= VIDEO_BUFFER_PRIMARY ;	//select $9800-$9BFF
 		else
-			LCDC_REG |= 0x08 ;	//select $9C00-$9FFF
+			LCDC_REG |= VIDEO_BUFFER_SECONDARY ;	//select $9C00-$9FFF
 		return ;
 	}
 
@@ -1165,10 +1165,10 @@ void update_screen_dungeon(UBYTE dofunctions)
 		}
 	}
 
-	if ( LCDC_REG&0x08 )
-		LCDC_REG &= 0xF7 ;	//select $9800-$9BFF
+	if ( LCDC_REG&VIDEO_BUFFER_SECONDARY )
+		LCDC_REG &= VIDEO_BUFFER_PRIMARY ;	//select $9800-$9BFF
 	else
-		LCDC_REG |= 0x08 ;	//select $9C00-$9FFF
+		LCDC_REG |= VIDEO_BUFFER_SECONDARY ;	//select $9C00-$9FFF
 
     if ( dofunctions != 0 ) 
     {
@@ -1243,7 +1243,7 @@ void update_screen_dungeon(UBYTE dofunctions)
             if ( currdungtile==2 ) //fountain
         {
             changemusic = 3 ;
-            if ( LCDC_REG&0x08 )
+            if ( LCDC_REG&VIDEO_BUFFER_SECONDARY )
                 set_data2((unsigned char*)0x9800,(unsigned char*)0x9C00,0x400L) ;
             else
                 set_data2((unsigned char*)0x9C00,(unsigned char*)0x9800,0x400L)	;
@@ -1317,7 +1317,7 @@ void update_screen_dungeon(UBYTE dofunctions)
             for ( r=0 ; r!=11 ; r++ )
                 set_bkg_tiles2(1,1+r,11,1,metile) ;
             VBK_REG=0 ;
-            if ( LCDC_REG&0x08 )
+            if ( LCDC_REG&VIDEO_BUFFER_SECONDARY )
                 set_data2((unsigned char*)0x9C00,(unsigned char*)0x9800,12L*32L) ;
             else
                 set_data2((unsigned char*)0x9800,(unsigned char*)0x9C00,12L*32L) ;
@@ -1329,7 +1329,7 @@ void update_screen_dungeon(UBYTE dofunctions)
             if ( currdungtile==5 ) //mark
         {
             changemusic = 3 ;
-            if ( LCDC_REG&0x08 )
+            if ( LCDC_REG&VIDEO_BUFFER_SECONDARY )
                 set_data2((unsigned char*)0x9800,(unsigned char*)0x9C00,0x400L) ;
             else
                 set_data2((unsigned char*)0x9C00,(unsigned char*)0x9800,0x400L)	;
@@ -1394,7 +1394,7 @@ void update_screen_dungeon(UBYTE dofunctions)
             VBK_REG=1 ;
             set_bkg_tiles2(6,6,1,1,metile) ;
             VBK_REG=0 ;
-            if ( LCDC_REG&0x08 )
+            if ( LCDC_REG&VIDEO_BUFFER_SECONDARY )
                 set_data2((unsigned char*)0x9C00,(unsigned char*)0x9800,12L*32L) ;
             else
                 set_data2((unsigned char*)0x9800,(unsigned char*)0x9C00,12L*32L) ;
@@ -1407,7 +1407,7 @@ void update_screen_dungeon(UBYTE dofunctions)
             if ( currdungtile==1 )	//time lord
         {
             changemusic = 3 ;
-            if ( LCDC_REG&0x08 )
+            if ( LCDC_REG&VIDEO_BUFFER_SECONDARY )
                 set_data2((unsigned char*)0x9800,(unsigned char*)0x9C00,0x400L) ;
             else
                 set_data2((unsigned char*)0x9C00,(unsigned char*)0x9800,0x400L)	;
@@ -1486,7 +1486,7 @@ void update_screen_dungeon(UBYTE dofunctions)
             VBK_REG=0 ;
 
 
-            if ( LCDC_REG&0x08 )
+            if ( LCDC_REG&VIDEO_BUFFER_SECONDARY )
                 set_data2((unsigned char*)0x9C00,(unsigned char*)0x9800,12L*32L) ;
             else
                 set_data2((unsigned char*)0x9800,(unsigned char*)0x9C00,12L*32L) ;

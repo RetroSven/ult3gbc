@@ -6,7 +6,11 @@
 .copy_vram::
 1$:
 	LDH	A,(.STAT)
+.if .ANALOGUE_POCKET
+	AND	#0x40
+.else
 	AND	#0x02
+.endif
 	JR	NZ,1$
 
 	LD	A,(BC)
